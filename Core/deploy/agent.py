@@ -1,21 +1,10 @@
 
-from Core.watcher.snapshot import snapshot
+
+from Core.dashboard.live import dashboard
 
 
-def deploy_check():
+def run():
 
-    return {
+    return dashboard()
 
-    "deploy":
-    "READY",
-
-    "snapshot":
-    snapshot()
-
-    }
-
-
-if __name__=="__main__":
-
-    print(deploy_check())
 

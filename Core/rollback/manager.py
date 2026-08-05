@@ -1,36 +1,34 @@
 
+
 import json
 import os
 
 
-FILE="Core/runtime/state.json"
-
+STATE="Core/runtime/state.json"
 
 
 def save(data):
 
     os.makedirs(
-        "Core/runtime",
-        exist_ok=True
+    "Core/runtime",
+    exist_ok=True
     )
 
 
-    with open(FILE,"w") as f:
-
-        json.dump(
-            data,
-            f,
-            indent=4
-        )
+    json.dump(
+    data,
+    open(STATE,"w"),
+    indent=4
+    )
 
 
 
 def load():
 
-    if os.path.exists(FILE):
+    if os.path.exists(STATE):
 
         return json.load(
-            open(FILE)
+        open(STATE)
         )
 
     return {}

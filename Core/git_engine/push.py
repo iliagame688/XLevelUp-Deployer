@@ -1,65 +1,90 @@
-from Core.dashboard.live.event_bus import bus
+import subprocess
+import datetime
+
+from Core.git_engine.auth import load_auth
+from Core.git_engine.guard import scan
 
 
-class PushManager:
+def run():
+
+    auth=load_auth()
 
 
-    def prepare(self, commit):
+    if auth["status"]!="ONLINE":
+
+        return {
+            "status":"FAILED",
+            "reason":"AUTH_MISSING"
+        }
 
 
-        bus.emit(
-            "Preparing push request",
-            "GIT"
-        )
 
+    secrets=scan()
+
+
+    if secrets:
 
         return {
 
+            "status":"BLOCKED",
 
-            "commit":
-                commit,
+            "reason":"SECRET_FOUND",
 
-
-            "ready":
-                True
+            "files":secrets
 
         }
 
 
 
-
-    def execute(self, data):
-
-
-        bus.emit(
-            "Push started",
-            "RUNNING"
-        )
-
-
-        # اینجا بعداً Git subprocess واقعی وصل می‌شود
+    subprocess.run(
+        [
+            "git",
+            "add",
+            "."
+        ]
+    )
 
 
-        bus.emit(
-            "Push completed",
-            "SUCCESS"
-        )
+    subprocess.run(
+        [
+            "git",
+            "commit",
+            "-m",
+            "XDEPLOY v16 automated push"
+        ],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
 
 
-        return {
+    result=subprocess.run(
+        [
+            "git",
+            "push",
+            "origin",
+            "main"
+        ],
+        capture_output=True,
+        text=True
+    )
 
 
-            "status":
-                "SUCCESS",
+    return {
+
+        "engine":"XDEPLOY v16",
+
+        "status":
+        "SUCCESS"
+        if result.returncode==0
+        else "FAILED",
+
+        "time":
+        str(datetime.datetime.now())
+
+    }
 
 
-            "details":
-                data
 
-        }
+if __name__=="__main__":
 
-
-
-
-
-push = PushManager()
+    print(run())

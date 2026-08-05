@@ -1,28 +1,42 @@
-class GitAuth:
+import json
+import os
 
 
-    def __init__(self):
-
-        self.connected = False
+AUTH_FILE="Core/security/github_auth.json"
 
 
+def load_auth():
 
-    def check(self):
+    if not os.path.exists(AUTH_FILE):
 
         return {
-
-            "authenticated":
-                self.connected
-
+            "status":"MISSING"
         }
 
 
+    with open(AUTH_FILE) as f:
 
-    def set_connected(self):
-
-        self.connected = True
-
+        data=json.load(f)
 
 
+    return {
+        "status":"ONLINE",
+        "username":data.get("username"),
+        "token":data.get("token")
+    }
 
-auth = GitAuth()
+
+
+if __name__=="__main__":
+
+    x=load_auth()
+
+    print({
+
+        "status":x["status"],
+
+        "user":x.get("username"),
+
+        "token":"LOADED" if x.get("token") else "NONE"
+
+    })

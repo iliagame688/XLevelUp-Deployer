@@ -1,24 +1,17 @@
 
-# Secrets
 .env
+
 *.token
+
 *.secret
-*.key
 
 Core/security/*
-!Core/security/.keep
 
-Core/data/*vault*
-Core/data/*credential*
+Core/runtime/*.json
 
-vault.json
+Core/snapshots/*.json
 
-# Runtime
 __pycache__/
-*.pyc
-*.log
 
-# Temp
-*.tmp
-*.cache
+*.pyc
 

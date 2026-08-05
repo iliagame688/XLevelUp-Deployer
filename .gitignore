@@ -1,27 +1,61 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
 
-# Secrets
+# =========================
+# SECURITY
+# =========================
+
 .env
+*.env
 *.token
 *.secret
-*.key
 
-Core/security/github_auth.json
+token.json
+tokens.json
+
 Core/security/github_token.json
-Core/security/.vault.json
+Core/security/github_auth.json
+Core/security/*.json
 
-Core/data/vault.json
-Core/data/real_vault.json
 Core/data/credentials.json
+Core/data/real_vault.json
+Core/data/vault.json
 
 vault.json
 
-# Logs
+
+# =========================
+# PYTHON
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# =========================
+# RUNTIME
+# =========================
+
+Core/runtime/*
+Core/logs/*
+Core/cache/*
+
 *.log
 
-# Runtime
-runtime/
-cache/
+
+# =========================
+# BACKUPS
+# =========================
+
+*.bak
+*.backup
+*.old
+
+
+# =========================
+# DEBUG
+# =========================
+
+deploy_debug.json
+git_trace.py
+upload_history.json
+

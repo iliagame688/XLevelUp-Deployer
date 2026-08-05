@@ -1,102 +1,42 @@
-from Core.workspace.config import (
-    save,
-    load
-)
+import json
+import os
+
+
+CONFIG="Core/config/workspace.json"
+
+
+def load():
+
+    with open(CONFIG) as f:
+        return json.load(f)
 
 
 
-class WorkspaceManager:
+def set_workspace(path):
 
+    data=load()
 
+    data["workspace"]=path
 
-    def add(
-        self,
-        name,
-        path
-    ):
-
-
-        data = load()
-
-
-        item = {
-
-            "name":
-                name,
-
-            "path":
-                path,
-
-            "status":
-                "READY"
-
-        }
-
-
-        data["workspaces"].append(
-            item
+    with open(CONFIG,"w") as f:
+        json.dump(
+            data,
+            f,
+            indent=4
         )
 
-
-        if not data["active"]:
-
-            data["active"] = name
-
-
-
-        save(data)
-
-
-        return item
+    return {
+        "status":"UPDATED",
+        "workspace":path
+    }
 
 
 
+def get_workspace():
 
-    def activate(
-        self,
-        name
-    ):
+    return load()["workspace"]
 
 
-        data = load()
+if __name__=="__main__":
+    print(get_workspace())
 
-
-        for item in data["workspaces"]:
-
-            if item["name"] == name:
-
-                data["active"] = name
-
-                save(data)
-
-                return {
-
-                    "status":
-                        "ACTIVE",
-
-                    "workspace":
-                        name
-
-                }
-
-
-
-        return {
-
-            "status":
-                "NOT_FOUND"
-
-        }
-
-
-
-
-
-    def list(self):
-
-        return load()
-
-
-
-
-workspace = WorkspaceManager()

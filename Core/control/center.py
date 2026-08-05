@@ -1,78 +1,23 @@
-from rich.console import Console
-from rich.layout import Layout
-from rich.panel import Panel
 
-from Core.control.panels import (
-    system_panel,
-    project_panel,
-    connection_panel
-)
+from Core.workspace.manager import current
+from Core.workspace.watcher import scan
 
 
+def center():
 
-console = Console()
+    return {
 
+    "engine":"XDEPLOY v20",
 
+    "workspace":
+        current(),
 
-def launch(context=None):
+    "files":
+        len(scan()),
 
-    context = context or {}
+    "status":
+        "ONLINE"
 
-
-    layout = Layout()
-
-
-    layout.split_column(
-
-        Layout(
-            name="header",
-            size=3
-        ),
-
-        Layout(
-            name="body"
-        )
-
-    )
+    }
 
 
-    layout["header"].update(
-        Panel(
-            "XLEVELUP CONTROL CENTER v1",
-            title="XCONTROL"
-        )
-    )
-
-
-    body = Layout()
-
-
-    body.split_row(
-
-        Layout(
-            system_panel(
-                context
-            )
-        ),
-
-        Layout(
-            project_panel(
-                context
-            )
-        )
-
-    )
-
-
-    layout["body"].update(
-        body
-    )
-
-
-    console.print(layout)
-
-    console.print(
-        connection_panel(
-            context
-        )
-    )

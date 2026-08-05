@@ -1,0 +1,15 @@
+{
+    "workspaces": [
+        {
+            "name": "main",
+            "path": "/storage/emulated/0/XLevelUp-Deployer",
+            "active": true
+        }
+    ],
+    "ignore": [
+        ".git",
+        "__pycache__",
+        "Core/runtime",
+        "Core/archive"
+    ]
+}

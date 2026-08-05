@@ -1,47 +1,14 @@
-
-.env
-
-*.token
-
-*.secret
-
-*.log
-
+.git/
 __pycache__/
-
 *.pyc
 
-
-Core/runtime/
-
-Core/security/*.json
-
-
-*.backup
-
-
-# XDEPLOY Runtime
 Core/runtime/
 Core/archive/
-__pycache__/
-*.pyc
+Core/snapshots/
 
-# Secrets
 .env
 *.token
 *.secret
-*.json
 
-
-# XDEPLOY Runtime
-Core/runtime/
-Core/archive/
-__pycache__/
-*.pyc
-
-# Secrets
-.env
-*.token
-*.secret
-*.json
-
+Core/security/*
+!Core/security/.keep

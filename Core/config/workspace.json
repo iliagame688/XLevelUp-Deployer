@@ -1,4 +1,5 @@
 {
-"path":"/storage/emulated/0/XLevelUp-Deployer",
-"watch":true
+    "path": "/storage/emulated/0/XLevelUp-Deployer",
+    "watch": true,
+    "auto_snapshot": true
 }

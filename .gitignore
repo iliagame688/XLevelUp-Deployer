@@ -66,3 +66,9 @@ Core/snapshots/
 __pycache__/
 *.pyc
 
+
+Core/security/*
+Core/snapshots/*
+Core/runtime/*
+__pycache__/
+

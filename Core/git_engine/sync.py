@@ -1,88 +1,48 @@
 
 import subprocess
-import datetime
 
 
-IGNORE=[
-"Core/security/",
-"Core/runtime/",
-"Core/snapshots/",
-"__pycache__/",
-".xdeploy/"
-]
 
+def run(cmd):
 
-def run(c):
-
-    return subprocess.check_output(
-    c,
+    return subprocess.run(
+    cmd,
     shell=True,
-    text=True
-    ).strip()
-
-
-
-def scan():
-
-    out=run(
-    "git status --short"
+    text=True,
+    capture_output=True
     )
 
-    result=[]
 
 
-    for x in out.splitlines():
-
-        if not x:
-            continue
+def sync(message="XDEPLOY AUTO SYNC"):
 
 
-        file=x[3:]
+    run(
+    "git add -A"
+    )
 
 
-        if any(
-        file.startswith(i)
-        for i in IGNORE
-        ):
-            continue
+    commit=run(
+    f'git commit -m "{message}"'
+    )
 
 
-        result.append(
-        {
-        "state":x[:2].strip(),
-        "file":file
-        }
-        )
-
-
-    return result
-
-
-
-
-def sync():
-
-    changes=scan()
-
-
-    subprocess.run(
-    "git add -A",
-    shell=True
+    push=run(
+    "git push origin main"
     )
 
 
     return {
 
-    "engine":"XDEPLOY v28",
 
-    "time":
-    str(datetime.datetime.now()),
+    "commit":
+    commit.stdout,
 
-    "changes":
-    changes,
-
-    "count":
-    len(changes)
+    "push":
+    push.stdout
+    if push.returncode==0
+    else
+    push.stderr
 
     }
 

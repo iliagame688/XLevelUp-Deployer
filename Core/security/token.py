@@ -1,33 +1,43 @@
 
-import json
 import os
+import json
 
 
-FILE="Core/config/token.json"
+PATH=os.path.expanduser(
+"~/.xdeploy/token.json"
+)
 
 
 
 def save(token):
 
     os.makedirs(
-    "Core/config",
+    os.path.dirname(PATH),
     exist_ok=True
     )
 
-    json.dump(
-    {
-    "token":token
-    },
-    open(FILE,"w"),
-    indent=4
-    )
+
+    with open(PATH,"w") as f:
+
+        json.dump(
+        {
+        "token":token
+        },
+        f
+        )
 
 
-    return "TOKEN UPDATED"
+    return "TOKEN SAVED"
 
 
 
-def status():
+def load():
 
-    return os.path.exists(FILE)
+    if not os.path.exists(PATH):
+        return None
+
+
+    with open(PATH) as f:
+
+        return json.load(f)
 

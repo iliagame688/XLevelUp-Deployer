@@ -1,26 +1,42 @@
-from datetime import datetime
+
+from Core.workspace.manager import get_workspace
+
+from Core.snapshot.manager import create
+
+from Core.git_engine.sync import sync
+
 
 
 def deploy():
 
-    return {
 
-    "deploy":"READY",
-
-    "engine":"XDEPLOY v21",
-
-    "time":str(datetime.now())
-
-    }
+    workspace=get_workspace()["path"]
 
 
+    snapshot=create(
+    workspace
+    )
 
-def rollback():
+
+    git=sync()
+
 
     return {
 
-    "rollback":"READY",
+    "engine":
+    "XDEPLOY v28.2",
 
-    "engine":"XDEPLOY v21"
+    "deploy":
+    "DONE",
+
+    "workspace":
+    workspace,
+
+    "snapshot":
+    snapshot,
+
+    "git":
+    git
 
     }
+

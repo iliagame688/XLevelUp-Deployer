@@ -1,61 +1,27 @@
-from datetime import datetime
+
+from Core.watcher.manager import status
 
 
 def dashboard():
 
-    try:
-        from Core.workspace.watcher import scan
-
-        files=len(scan())
-
-    except Exception:
-        files=0
-
-
     return {
 
-        "engine":"XDEPLOY v23.1",
+    "engine":
+    "XDEPLOY v28.2",
 
-        "status":"ONLINE",
+    "status":
+    "ONLINE",
 
-        "time":str(datetime.now()),
+    "workspace":
+    status(),
 
-
-        "workspace":{
-
-            "files":files,
-
-            "status":"WATCHING"
-
-        },
-
-
-        "modules":[
-
-            "AI Brain",
-
-            "Watcher",
-
-            "Deploy",
-
-            "Recovery",
-
-            "Rollback",
-
-            "Git Engine",
-
-            "Control Plane"
-
-        ],
-
-
-        "server":{
-
-            "status":"READY",
-
-            "port":8080
-
-        }
+    "modules":[
+    "Watcher",
+    "Snapshot",
+    "Deploy",
+    "Git Engine",
+    "Security"
+    ]
 
     }
 

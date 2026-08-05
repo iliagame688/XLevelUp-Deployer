@@ -1,0 +1,16 @@
+[
+    {
+        "status": "FAILED",
+        "online": false,
+        "recovery": {
+            "type": "AUTH",
+            "solution": "Update access token"
+        },
+        "time": "2026-08-05 04:32:41"
+    },
+    {
+        "status": "SUCCESS",
+        "online": true,
+        "time": "2026-08-05 04:32:41"
+    }
+]

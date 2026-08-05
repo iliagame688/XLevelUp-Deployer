@@ -1,0 +1,46 @@
+
+from Core.config_manager import config_manager
+from Core.deploy.real_mode import real_deploy
+
+
+class DeployBridge:
+
+
+    def start(self,workspace,config):
+
+
+        config_manager.set(
+            "last_mode",
+            config.get(
+                "mode",
+                "TEST"
+            )
+        )
+
+
+        if config.get(
+            "real",
+            False
+        ):
+
+            return real_deploy.run(
+                workspace
+            )
+
+
+        return {
+
+            "engine":"XDEPLOY",
+
+            "status":"TEST",
+
+            "mode":
+                config.get(
+                    "mode"
+                )
+
+        }
+
+
+
+bridge = DeployBridge()

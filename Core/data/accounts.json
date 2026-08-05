@@ -1,0 +1,17 @@
+{
+    "accounts": [
+        {
+            "name": "MAIN_ACCOUNT",
+            "provider": "GITHUB",
+            "workspace": "XLevelUp",
+            "status": "READY"
+        },
+        {
+            "name": "BACKUP_ACCOUNT",
+            "provider": "GITHUB",
+            "workspace": "Backup_Project",
+            "status": "READY"
+        }
+    ],
+    "active": "BACKUP_ACCOUNT"
+}

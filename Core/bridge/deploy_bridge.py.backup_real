@@ -1,0 +1,133 @@
+
+from Core.deploy.orchestrator import DeployOrchestrator
+
+from Core.dashboard.live.event_bus import bus
+
+import time
+
+
+
+class DeployBridge:
+
+
+    def __init__(self):
+
+        self.engine = DeployOrchestrator()
+
+
+
+    def progress_bar(self, value):
+
+        size = 30
+
+        filled = int(size * value / 100)
+
+        return (
+
+            "█" * filled +
+
+            "░" * (size-filled)
+
+        )
+
+
+
+    def render_event(self, event):
+
+        try:
+
+            msg = event.get(
+                "message",
+                ""
+            )
+
+            level = event.get(
+                "level",
+                ""
+            )
+
+            progress = event.get(
+                "progress",
+                0
+            )
+
+
+            print(
+
+                f"\r{msg:<25} "
+
+                f"[{self.progress_bar(progress)}] "
+
+                f"{progress}% "
+
+                f"{level}",
+
+                flush=True
+
+            )
+
+
+        except Exception:
+
+            pass
+
+
+
+    def start(self, workspace, config=None):
+
+
+        print()
+
+        print(
+            "╭──────── XLEVELUP LIVE DEPLOY ────────╮"
+        )
+
+        print()
+
+
+
+        result = self.engine.run(
+
+            workspace
+
+        )
+
+
+
+        print()
+
+        print(
+            "╰──────────────────────────────────────╯"
+        )
+
+
+        print()
+
+        print(
+            "⚡ DEPLOY REPORT"
+        )
+
+
+
+
+        try:
+            from Core.dashboard.controller import controller
+
+            controller.render(
+                result
+            )
+
+        except Exception as e:
+            print(
+                "Dashboard Hook Error:",
+                e
+            )
+
+
+        return result
+
+
+
+
+bridge = DeployBridge()
+

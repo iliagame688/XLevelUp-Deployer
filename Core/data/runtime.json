@@ -1,0 +1,30 @@
+{
+    "time": "2026-08-05 05:01:18",
+    "workspace": {
+        "path": "/storage/emulated/0/XLevelUp-Deployer",
+        "files": 360,
+        "size": 302784,
+        "size_mb": 0.29
+    },
+    "git": {
+        "repo": false,
+        "status": "NOT A REPO"
+    },
+    "services": {
+        "time": "2026-08-05 05:01:18",
+        "services": {
+            "CORE": {
+                "status": "RUNNING"
+            }
+        },
+        "health": {
+            "health": "GOOD",
+            "services": {
+                "CORE": {
+                    "status": "RUNNING"
+                }
+            },
+            "errors": []
+        }
+    }
+}

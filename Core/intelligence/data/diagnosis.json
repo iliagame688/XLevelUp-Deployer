@@ -1,0 +1,11 @@
+[
+    {
+        "time": "2026-08-05 03:50:31",
+        "source": "DEPLOY",
+        "problem": "IMPORT_ERROR",
+        "cause": "Module path or package structure problem",
+        "confidence": "94%",
+        "suggestion": "Check Core imports and package layout",
+        "raw": "ModuleNotFoundError: No module named git"
+    }
+]

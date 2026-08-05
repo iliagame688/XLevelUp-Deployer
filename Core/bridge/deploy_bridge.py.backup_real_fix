@@ -1,0 +1,30 @@
+
+from Core.deploy.real_mode import real_deploy
+from Core.deploy.commands import is_real_enabled
+
+
+class DeployBridge:
+
+
+    def start(self, workspace, config):
+
+        if (
+            config.get("real")
+            or is_real_enabled()
+        ):
+
+            return real_deploy.run(
+                workspace
+            )
+
+
+        return {
+            "engine":"XDEPLOY",
+            "status":"UNKNOWN",
+            "mode":"TEST",
+            "reason":"REAL_MODE_DISABLED"
+        }
+
+
+
+bridge = DeployBridge()

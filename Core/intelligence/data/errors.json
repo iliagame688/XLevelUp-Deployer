@@ -1,0 +1,17 @@
+[
+    {
+        "time": "2026-08-05 03:46:42",
+        "module": "TEST_ENGINE",
+        "error": "{'module': 'TEST_ENGINE', 'type': 'IMPORT_ERROR', 'message': 'ModuleNotFoundError: No module named test', 'suggestion': 'Check import path or module structure'}"
+    },
+    {
+        "time": "2026-08-05 03:48:45",
+        "module": "TEST_MODULE",
+        "error": "{'module': 'TEST_MODULE', 'type': 'MISSING_FILE', 'message': 'FileNotFoundError: config.json', 'suggestion': 'Check required files'}"
+    },
+    {
+        "time": "2026-08-05 03:49:14",
+        "module": "DEPLOY",
+        "error": "{'module': 'DEPLOY', 'type': 'IMPORT_ERROR', 'message': 'ModuleNotFoundError: test', 'suggestion': 'Check import path or module structure'}"
+    }
+]

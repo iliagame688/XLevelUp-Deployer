@@ -1,0 +1,98 @@
+import subprocess
+
+from Core.upload.commit import (
+    save,
+    generate_message
+)
+
+
+
+class UploadPipeline:
+
+
+
+    def detect_changes(self, path):
+
+        try:
+
+            result = subprocess.check_output(
+
+                [
+                    "git",
+                    "-C",
+                    path,
+                    "status",
+                    "--short"
+                ],
+
+                text=True
+
+            )
+
+
+            files = [
+
+                x[3:]
+
+                for x in result.splitlines()
+
+                if x.strip()
+
+            ]
+
+
+            return files
+
+
+
+        except Exception:
+
+            return []
+
+
+
+
+
+    def prepare(self, path):
+
+        files = self.detect_changes(
+            path
+        )
+
+
+        data = {
+
+            "files":
+                files,
+
+            "count":
+                len(files),
+
+            "commit":
+                generate_message(
+                    files
+                ),
+
+            "status":
+                "READY"
+        }
+
+
+
+        if not files:
+
+            data["status"] = "NO_CHANGES"
+
+
+
+        save(
+            data
+        )
+
+
+        return data
+
+
+
+
+pipeline = UploadPipeline()

@@ -1,0 +1,60 @@
+
+from Core.deploy.real_mode import real_deploy
+from Core.deploy.orchestrator import DeployOrchestrator
+
+
+REAL_FLAG = (
+    "/storage/emulated/0/XLevelUp-Deployer/Core/data/real_enabled"
+)
+
+
+class DeployBridge:
+
+
+    def start(self, workspace, config):
+
+
+        print()
+
+        if PathFlag.enabled():
+
+            print(
+                "╭──────── XLEVELUP REAL DEPLOY ────────╮"
+            )
+
+
+            result = real_deploy.run(
+                workspace
+            )
+
+
+            print(
+                "╰──────────────────────────────────────╯"
+            )
+
+
+            return result
+
+
+
+        return DeployOrchestrator().run(
+            workspace
+        )
+
+
+
+class PathFlag:
+
+
+    @staticmethod
+    def enabled():
+
+        from pathlib import Path
+
+        return Path(
+            REAL_FLAG
+        ).exists()
+
+
+
+bridge = DeployBridge()

@@ -1,0 +1,56 @@
+
+from rich.console import Console
+from rich.panel import Panel
+
+
+console = Console()
+
+
+class Renderer:
+
+
+    def show(self, data):
+
+        if isinstance(data, dict):
+
+            mode = data.get(
+                "mode",
+                "UNKNOWN"
+            )
+
+            status = data.get(
+                "status",
+                "UNKNOWN"
+            )
+
+            engine = data.get(
+                "engine",
+                "XDEPLOY"
+            )
+
+
+        else:
+
+            mode = "UNKNOWN"
+            status = "UNKNOWN"
+            engine = "XDEPLOY"
+
+
+
+        console.print()
+
+
+        console.print(
+            Panel(
+f"""
+ENGINE: {engine}
+STATUS: {status}
+MODE: {mode}
+""",
+                title="XLEVELUP DEPLOY REPORT"
+            )
+        )
+
+
+
+renderer = Renderer()

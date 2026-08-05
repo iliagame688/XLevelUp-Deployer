@@ -1,0 +1,32 @@
+
+from Core.deploy.real_mode import real_deploy
+
+
+class DeployBridge:
+
+
+    def start(self, workspace, config):
+
+
+        print()
+
+        print(
+            "╭──────── XLEVELUP REAL ENGINE ────────╮"
+        )
+
+
+        result = real_deploy.run(
+            workspace
+        )
+
+
+        print(
+            "╰──────────────────────────────────────╯"
+        )
+
+
+        return result
+
+
+
+bridge = DeployBridge()

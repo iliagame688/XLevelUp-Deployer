@@ -1,0 +1,21 @@
+
+from Core.deploy.real_mode import real_deploy
+
+
+REAL_ENABLED = True
+
+
+def dispatch(path):
+
+    if REAL_ENABLED:
+
+        return real_deploy.run(
+            path
+        )
+
+
+    return {
+        "status":"TEST",
+        "mode":"SAFE"
+    }
+

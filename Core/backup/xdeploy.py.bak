@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import sys
+from pathlib import Path
+
+BASE = Path("/storage/emulated/0/XLevelUp-Deployer")
+CORE = BASE / "Core"
+
+sys.path.insert(0, str(CORE))
+
+try:
+    from main import start
+    start()
+
+except Exception as e:
+    print("""
+╭──────────────────────────╮
+│ XDEPLOY START ERROR      │
+╰──────────────────────────╯
+""")
+    print(e)

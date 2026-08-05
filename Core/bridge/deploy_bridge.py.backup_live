@@ -1,0 +1,71 @@
+
+from Core.deploy.orchestrator import DeployOrchestrator
+
+from Core.dashboard.live.event_bus import bus
+
+
+
+class DeployBridge:
+
+
+    def __init__(self):
+
+        self.engine = DeployOrchestrator()
+
+
+
+    def start(self, workspace, config=None):
+
+
+        print(
+            "\n⚡ XDEPLOY BRIDGE STARTED\n"
+        )
+
+
+        bus.emit(
+
+            "Deploy Started",
+
+            "INFO",
+
+            0
+
+        )
+
+
+        result = self.engine.run(
+
+            workspace
+
+        )
+
+
+        bus.emit(
+
+            "Deploy Finished",
+
+            "SUCCESS",
+
+            100
+
+        )
+
+
+        print(
+            "\n⚡ LIVE DASHBOARD EVENTS\n"
+        )
+
+
+        for event in bus.get():
+
+            print(event)
+
+
+
+        return result
+
+
+
+
+bridge = DeployBridge()
+

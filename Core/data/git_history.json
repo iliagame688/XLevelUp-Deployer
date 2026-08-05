@@ -1,0 +1,10 @@
+[
+    {
+        "action": "GIT_STATUS",
+        "result": {
+            "repo": false,
+            "error": "Command '['git', '-C', '/storage/emulated/0/XLevelUp-Deployer', 'status', '--short']' returned non-zero exit status 128."
+        },
+        "time": "2026-08-05 04:17:44"
+    }
+]

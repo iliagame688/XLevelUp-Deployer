@@ -1,0 +1,183 @@
+from Core.dashboard.live.event_bus import bus
+
+
+class DashboardBoot:
+
+    def __init__(self):
+        self.loaded = False
+        self.panels = []
+
+    def load_panels(self):
+
+        try:
+            from Core.dashboard.panels.home import HomePanel
+            self.panels.append(HomePanel)
+
+        except Exception:
+            pass
+
+
+        try:
+            from Core.dashboard.panels.engine import EnginePanel
+            self.panels.append(EnginePanel)
+
+        except Exception:
+            pass
+
+
+        try:
+            from Core.dashboard.panels.deploy import DeployPanel
+            self.panels.append(DeployPanel)
+
+        except Exception:
+            pass
+
+
+        try:
+            from Core.dashboard.panels.ai import AIPanel
+            self.panels.append(AIPanel)
+
+        except Exception:
+            pass
+
+
+        try:
+            from Core.dashboard.panels.repair import RepairPanel
+            self.panels.append(RepairPanel)
+
+        except Exception:
+            pass
+
+
+    def start(self, result=None):
+
+        self.load_panels()
+
+        self.loaded = True
+
+
+        print()
+
+        print(
+            "╭──────── XLEVELUP AI DASHBOARD ────────╮"
+        )
+
+
+        print(
+            ""
+            "\nENGINE       [✓] ONLINE"
+            "\nEVENT BUS    [✓] CONNECTED"
+            "\nLIVE VIEW    [✓] READY"
+            "\nPANELS       [{}] LOADED"
+            .format(len(self.panels))
+        )
+
+
+        print(
+            "\nAUTH CENTER"
+            "\n────────────"
+            "\nToken: WAITING"
+            "\nMode: SAFE TEST"
+        )
+
+
+        print(
+            "\nDEPLOY MONITOR"
+            "\n──────────────"
+        )
+
+
+        events = bus.get()
+
+
+        if events:
+
+            for event in events[-8:]:
+
+                print(
+                    "{} | {} | {}%"
+                    .format(
+                        event.get("level"),
+                        event.get("message"),
+                        event.get("progress",0)
+                    )
+                )
+
+        else:
+
+            print(
+                "Waiting for deploy events..."
+            )
+
+
+        print(
+            "\n╰──────────────────────────────────────╯"
+        )
+
+
+        return {
+            "dashboard":
+                "ONLINE",
+
+            "panels":
+                len(self.panels),
+
+            "events":
+                len(events)
+        }
+
+
+
+boot = DashboardBoot()
+
+
+def render_command_center(result):
+
+    try:
+
+        from Core.dashboard.kernel import kernel
+
+        state = kernel.snapshot()
+
+
+        runtime = state.get(
+            "runtime",
+            {}
+        )
+
+
+        print()
+
+        print(
+            "╭──────── XLEVELUP RUNTIME CENTER ────────╮"
+        )
+
+
+        for name,data in runtime.items():
+
+            if isinstance(data,dict):
+
+                print(
+                    f"{name:<12} | {data.get('status','-')}"
+                )
+
+            else:
+
+                print(
+                    f"{name:<12} | {data}"
+                )
+
+
+        print(
+            "╰──────────────────────────────────────────╯"
+        )
+
+
+    except Exception as e:
+
+        print(
+            "Runtime Center Error:",
+            e
+        )
+
+

@@ -1,0 +1,114 @@
+
+class PreflightRenderer:
+
+
+    def show(self, data):
+
+        print()
+
+        print(
+            "╭──────── XLEVELUP PREFLIGHT ────────╮"
+        )
+
+        print()
+
+
+        self.item(
+            "WORKSPACE",
+            data["workspace"]
+        )
+
+
+        if data["git"]:
+
+            self.item(
+                "GIT",
+                True
+            )
+
+        else:
+
+            print(
+                "GIT           [!] NOT INITIALIZED"
+            )
+
+            print(
+                "MODE: TEST"
+            )
+
+
+        self.item(
+            "AUTH",
+            data["auth"]
+        )
+
+
+        print()
+
+        print(
+            "UPLOAD ENGINE [✓] AVAILABLE"
+        )
+
+        print(
+            "DASHBOARD     [✓] ONLINE"
+        )
+
+
+        print()
+
+        print(
+            "DEPLOY MODE:",
+            data["mode"]
+        )
+
+
+        print()
+
+        print(
+            "╰────────────────────────────────────╯"
+        )
+
+
+
+    def item(self,name,value):
+
+        status = (
+            "[✓] READY"
+            if value
+            else
+            "[!] MISSING"
+        )
+
+        print(
+            f"{name:<14}{status}"
+        )
+
+
+
+renderer = PreflightRenderer()
+
+
+
+def render_deploy_report(result):
+
+    print()
+
+    print(
+        "╭──────── XLEVELUP DEPLOY REPORT ────────╮"
+    )
+
+    print(
+        f"ENGINE: {result.get('engine','XDEPLOY')}"
+    )
+
+    print(
+        f"STATUS: {result.get('status','UNKNOWN')}"
+    )
+
+    print(
+        f"MODE: {result.get('mode','TEST')}"
+    )
+
+    print(
+        "╰──────────────────────────────────────╯"
+    )

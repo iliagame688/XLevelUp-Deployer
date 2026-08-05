@@ -1,0 +1,171 @@
+from Core.git.guard import guard
+from Core.workspace.scanner import scan
+
+from Core.upload.pipeline import pipeline
+
+from Core.git.commit_engine import commit_engine
+
+from Core.git.push_engine import push_engine
+
+from Core.deploy.report import save
+
+
+
+
+class DeployOrchestrator:
+
+
+
+    def run(self, path):
+
+
+        result = {
+
+            "engine":
+                "XDEPLOY",
+
+            "steps":
+                []
+
+        }
+
+
+
+        # Workspace
+
+        workspace = scan(path)
+
+
+        result["steps"].append({
+
+            "name":
+                "WORKSPACE_SCAN",
+
+            "status":
+                "DONE",
+
+            "data":
+                workspace
+
+        })
+
+
+
+        # Changes
+
+        files = pipeline.detect_changes(
+            path
+        )
+
+
+        result["steps"].append({
+
+            "name":
+                "CHANGE_DETECT",
+
+            "files":
+                files,
+
+            "count":
+                len(files)
+
+        })
+
+
+
+        if not files:
+
+
+            result["final"] = {
+
+                "status":
+                    "NO_CHANGES"
+
+            }
+
+
+            return save(result)
+
+
+
+
+
+        # Commit
+
+
+        commit = commit_engine.run(
+
+            path,
+
+            files
+
+        )
+
+
+        result["steps"].append({
+
+            "name":
+                "COMMIT",
+
+            "data":
+                commit
+
+        })
+
+
+
+        if commit.get("status") != "SUCCESS":
+
+
+            result["final"] = {
+
+                "status":
+                    "COMMIT_FAILED"
+
+            }
+
+
+            return save(result)
+
+
+
+
+
+        # Push
+
+
+        push = push_engine.push(
+            path
+        )
+
+
+        result["steps"].append({
+
+            "name":
+                "PUSH",
+
+            "data":
+                push
+
+        })
+
+
+
+        result["final"] = {
+
+            "status":
+                push.get(
+                    "status",
+                    "UNKNOWN"
+                )
+
+        }
+
+
+        return save(result)
+
+
+
+
+
+deploy_engine = DeployOrchestrator()

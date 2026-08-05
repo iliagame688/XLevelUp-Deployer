@@ -1,0 +1,50 @@
+
+from Core.bridge.deploy_bridge import bridge
+
+
+
+def start():
+
+
+    workspace = (
+
+        "/storage/emulated/0/"
+
+        "XLevelUp-Deployer"
+
+    )
+
+
+    config = {
+
+        "mode":
+
+            "DEPLOY"
+
+    }
+
+
+
+    result = bridge.start(
+
+        workspace,
+
+        config
+
+    )
+
+
+    print()
+
+
+    print(
+
+        "⚡ ENGINE ONLINE"
+
+    )
+
+
+    return result
+
+
+

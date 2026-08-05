@@ -1,0 +1,139 @@
+
+from Core.upload.engine import upload
+
+from Core.upload.executor import executor
+
+from Core.gitflow.commit import commit_engine
+
+from Core.repository.manager import repository
+
+from Core.push.engine import push
+
+from Core.pipeline.state import state
+
+from Core.dashboard.live.event_bus import bus
+
+
+
+class DeployPipeline:
+
+
+    def run(self, workspace, config):
+
+
+        state.steps.clear()
+
+
+        bus.emit(
+            "Deploy started",
+            "DEPLOY"
+        )
+
+
+        # Upload
+
+        queue = upload.prepare(
+            workspace
+        )
+
+
+        upload_result = executor.run(
+            queue
+        )
+
+
+        state.add(
+            "FILES UPLOADED"
+        )
+
+
+
+        # Commit
+
+        commit = commit_engine.create(
+            "XDeploy automated commit"
+        )
+
+
+        state.add(
+            "COMMIT CREATED"
+        )
+
+
+
+        # Repository
+
+        repo = repository.setup(
+
+            config.get(
+                "repo_mode",
+                "EXISTING"
+            ),
+
+            config.get(
+                "repo",
+                "UNKNOWN"
+            )
+
+        )
+
+
+        state.add(
+            "REPOSITORY READY"
+        )
+
+
+
+        # Push
+
+        push_result = push.run(
+
+            config.get(
+                "repo",
+                "UNKNOWN"
+            ),
+
+            {
+
+                "auth":
+                    config.get(
+                        "auth"
+                    )
+
+            }
+
+        )
+
+
+        state.add(
+            "PUSH FINISHED"
+        )
+
+
+        result = {
+
+            "pipeline":
+                "XDEPLOY",
+
+            "status":
+                push_result["status"],
+
+            "steps":
+                state.get()
+
+        }
+
+
+        bus.emit(
+            "Deploy finished",
+            "SUCCESS"
+        )
+
+
+        return result
+
+
+
+
+pipeline = DeployPipeline()
+

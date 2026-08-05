@@ -1,0 +1,59 @@
+
+from Core.deploy.real_mode import real_deploy
+from Core.config_manager import config_manager
+
+
+class DeployBridge:
+
+
+    def start(
+        self,
+        workspace,
+        config
+    ):
+
+
+        print()
+
+        print(
+            "╭──────── XLEVELUP REAL BRIDGE ────────╮"
+        )
+
+
+        result = real_deploy.run(
+            workspace
+        )
+
+
+        print(
+            "✓ REAL DEPLOY PIPELINE EXECUTED"
+        )
+
+
+        print(
+            "╰──────────────────────────────────────╯"
+        )
+
+
+        return {
+
+            "engine":
+                "XDEPLOY",
+
+            "status":
+                result.get(
+                    "status",
+                    "REAL_READY"
+                ),
+
+            "mode":
+                "REAL",
+
+            "deploy":
+                result
+
+        }
+
+
+
+bridge = DeployBridge()

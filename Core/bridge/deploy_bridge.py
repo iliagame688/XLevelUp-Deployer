@@ -1,0 +1,115 @@
+
+from Core.deploy.real_engine import real_engine
+
+
+class DeployBridge:
+
+
+    def start(self, workspace, config=None):
+
+
+        try:
+
+            result = real_engine.run()
+
+
+            return {
+
+                "engine":
+                    result.get(
+                        "engine",
+                        "XDEPLOY"
+                    ),
+
+
+                "mode":
+                    result.get(
+                        "mode",
+                        "REAL"
+                    ),
+
+
+                "status":
+                    result.get(
+                        "status",
+                        "UNKNOWN"
+                    ),
+
+
+                "steps":
+                    result.get(
+                        "steps",
+                        []
+                    ),
+
+
+                "error":
+                    result.get(
+                        "error",
+                        ""
+                    ),
+
+
+                "final":
+                    {
+
+                        "status":
+                            result.get(
+                                "status",
+                                "UNKNOWN"
+                            ),
+
+
+                        "mode":
+                            result.get(
+                                "mode",
+                                "REAL"
+                            )
+
+                    }
+
+            }
+
+
+
+        except Exception as e:
+
+
+            return {
+
+                "engine":
+                    "XDEPLOY",
+
+
+                "mode":
+                    result.get(
+                        "mode",
+                        "REAL"
+                    ),
+
+
+                "status":
+                    "ERROR",
+
+
+                "final":
+                    {
+
+                        "status":
+                            "ERROR",
+
+                        "mode":
+                            "REAL"
+
+                    },
+
+
+                "error":
+                    str(e)
+
+            }
+
+
+
+bridge = DeployBridge()
+

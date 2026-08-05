@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Secrets
+.env
+*.token
+*.secret
+*.key
+
+Core/security/github_auth.json
+Core/security/github_token.json
+Core/security/.vault.json
+
+Core/data/vault.json
+Core/data/real_vault.json
+Core/data/credentials.json
+
+vault.json
+
+# Logs
+*.log
+
+# Runtime
+runtime/
+cache/

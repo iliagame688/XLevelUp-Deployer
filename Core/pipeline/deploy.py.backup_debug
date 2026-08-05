@@ -1,0 +1,187 @@
+
+from Core.upload.engine import upload
+
+
+
+from Core.gitflow.commit import commit_engine
+
+from Core.repository.manager import repository
+
+from Core.push.engine import push
+
+from Core.pipeline.state import state
+
+from Core.dashboard.live.event_bus import bus
+
+
+
+class DeployPipeline:
+
+
+    def run(self, workspace, config):
+
+
+        state.steps.clear()
+
+
+        bus.emit(
+            "Workspace checked",
+            "TEST",
+            10
+        )
+
+
+        bus.emit(
+            "Files uploaded",
+            "UPLOAD",
+            45
+        )
+
+
+        bus.emit(
+            "Commit created",
+            "GIT",
+            65
+        )
+
+
+        bus.emit(
+            "Remote pushing",
+            "PUSH",
+            85
+        )
+
+
+        bus.emit(
+            "Deploy completed",
+            "SUCCESS",
+            100
+        )
+
+
+
+
+        bus.emit(
+            "Deploy started",
+            "DEPLOY"
+        )
+
+
+        # Upload
+
+        upload_result = upload.upload(
+            workspace
+        )
+
+
+        # Upload handled directly by UploadEngine v2.7
+        pass
+
+
+        state.add(
+            "FILES UPLOADED"
+        )
+
+
+
+        # Commit
+
+        commit = commit_engine.create(
+            "XDeploy automated commit"
+        )
+
+
+        state.add(
+            "COMMIT CREATED"
+        )
+
+
+
+        # Repository
+
+        repo = repository.setup(
+
+            config.get(
+                "repo_mode",
+                "EXISTING"
+            ),
+
+            config.get(
+                "repo",
+                "UNKNOWN"
+            )
+
+        )
+
+
+        state.add(
+            "REPOSITORY READY"
+        )
+
+
+
+        # Push
+
+        push_result = push.run(config.get(
+                "repo"),
+
+            {
+
+                "auth":
+                    config.get(
+                        "auth"
+                    )
+
+            }
+
+        )
+
+
+        state.add(
+            "PUSH FINISHED"
+        )
+
+
+        result = {
+
+            "pipeline":
+                "XDEPLOY",
+
+            "status":
+                push_result["status"],
+
+            "steps":
+                state.get()
+
+        }
+
+
+        bus.emit(
+            "Deploy finished",
+            "SUCCESS"
+        )
+
+
+        return result
+
+
+
+
+pipeline = DeployPipeline()
+
+
+
+
+
+# XDEPLOY DEBUG MODE
+
+try:
+
+    print("\n[XDEPLOY DEBUG ENABLED]")
+
+    print(result)
+
+except:
+
+    pass
+

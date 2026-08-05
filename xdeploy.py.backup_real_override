@@ -1,0 +1,6 @@
+
+from Core.main import start
+
+
+start()
+

@@ -1,0 +1,10 @@
+{
+    "workspaces": [
+        {
+            "name": "XLevelUp",
+            "path": "/storage/emulated/0/XLevelUp-Deployer",
+            "status": "READY"
+        }
+    ],
+    "active": "XLevelUp"
+}

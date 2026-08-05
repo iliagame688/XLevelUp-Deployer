@@ -1,0 +1,8 @@
+{
+    "CORE": {
+        "status": "ONLINE"
+    },
+    "DEPLOY": {
+        "status": "RUNNING"
+    }
+}

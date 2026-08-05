@@ -1,0 +1,29 @@
+[
+    {
+        "time": "2026-08-05 03:48:45",
+        "source": "CORE",
+        "event": "BOOT_TEST",
+        "payload": {
+            "status": "OK"
+        }
+    },
+    {
+        "time": "2026-08-05 03:48:45",
+        "source": "TEST_MODULE",
+        "event": "ERROR_ANALYZED",
+        "payload": {
+            "module": "TEST_MODULE",
+            "type": "MISSING_FILE",
+            "message": "FileNotFoundError: config.json",
+            "suggestion": "Check required files"
+        }
+    },
+    {
+        "time": "2026-08-05 03:49:14",
+        "source": "DEPLOY",
+        "event": "ERROR",
+        "payload": {
+            "error": "ModuleNotFoundError: test"
+        }
+    }
+]

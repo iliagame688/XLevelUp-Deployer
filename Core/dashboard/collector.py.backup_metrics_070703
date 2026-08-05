@@ -1,0 +1,110 @@
+import json
+from pathlib import Path
+
+from dashboard.metrics import empty
+
+
+ROOT = Path(
+    "/storage/emulated/0/XLevelUp-Deployer/Core/data"
+)
+
+
+STATE = ROOT / "state.json"
+
+CONFIG = Path(
+    "/storage/emulated/0/XLevelUp-Deployer/Core/config/settings.json"
+)
+
+
+
+def read_json(path):
+
+    try:
+
+        if path.exists():
+
+            return json.loads(
+                path.read_text(
+                    encoding="utf-8"
+                )
+            )
+
+    except:
+
+        pass
+
+
+    return {}
+
+
+
+
+def collect():
+
+    data = empty()
+
+
+    state = read_json(
+        STATE
+    )
+
+    config = read_json(
+        CONFIG
+    )
+
+
+    data["workspace"]["path"] = (
+        config.get(
+            "watch_path",
+            "NOT SET"
+        )
+    )
+
+
+    data["workspace"]["total"] = (
+        state.get(
+            "total_files",
+            0
+        )
+    )
+
+
+    data["workspace"]["added"] = (
+        state.get(
+            "added",
+            0
+        )
+    )
+
+
+    data["workspace"]["modified"] = (
+        state.get(
+            "modified",
+            0
+        )
+    )
+
+
+    data["workspace"]["deleted"] = (
+        state.get(
+            "deleted",
+            0
+        )
+    )
+
+
+    data["watcher"]["status"] = (
+        "RUNNING"
+    )
+
+
+    data["watcher"]["events"] = (
+        data["workspace"]["added"]
+        +
+        data["workspace"]["modified"]
+        +
+        data["workspace"]["deleted"]
+    )
+
+
+    return data

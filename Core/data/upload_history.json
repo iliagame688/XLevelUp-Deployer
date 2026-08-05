@@ -1,0 +1,11 @@
+[
+    {
+        "action": "UPLOAD_CHECK",
+        "files": [
+            "ERROR: Command '['git', '-C', '/storage/emulated/0/XLevelUp-Deployer', 'status', '--short']' returned non-zero exit status 128."
+        ],
+        "count": 1,
+        "status": "READY",
+        "time": "2026-08-05 04:15:38"
+    }
+]

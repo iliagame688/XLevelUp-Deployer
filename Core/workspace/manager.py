@@ -1,11 +1,13 @@
 import json
 import os
 
-
 CONFIG="Core/config/workspace.json"
 
 
-def load():
+def get_workspace():
+
+    if not os.path.exists(CONFIG):
+        return None
 
     with open(CONFIG) as f:
         return json.load(f)
@@ -14,29 +16,14 @@ def load():
 
 def set_workspace(path):
 
-    data=load()
+    data=get_workspace() or {}
 
-    data["workspace"]=path
+    data["path"]=path
 
     with open(CONFIG,"w") as f:
-        json.dump(
-            data,
-            f,
-            indent=4
-        )
+        json.dump(data,f,indent=4)
 
     return {
-        "status":"UPDATED",
-        "workspace":path
+        "workspace":path,
+        "status":"UPDATED"
     }
-
-
-
-def get_workspace():
-
-    return load()["workspace"]
-
-
-if __name__=="__main__":
-    print(get_workspace())
-

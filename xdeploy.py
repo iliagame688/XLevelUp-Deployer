@@ -1,12 +1,12 @@
 
-import os
-
-# XLEVELUP REAL OVERRIDE
-os.environ["XLEVELUP_MODE"] = "REAL"
-os.environ["XDEPLOY_REAL"] = "1"
+#!/data/data/com.termux/files/usr/bin/python
 
 
-from Core.main import start
+from Core.dashboard.menu import run
 
 
-start()
+
+if __name__=="__main__":
+
+    run()
+

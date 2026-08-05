@@ -1,3 +1,19 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+echo "
+╔══════════════════════════════════╗
+║   XDEPLOY v27.1 DASH FIX          ║
+╚══════════════════════════════════╝
+"
+
+
+LIVE_DIR="Core/dashboard/live"
+
+
+mkdir -p "$LIVE_DIR"
+
+
+cat > "$LIVE_DIR/__init__.py" <<'PY'
 
 import datetime
 import os
@@ -78,4 +94,36 @@ def status():
 
     }
 
+
+PY
+
+
+
+echo "[TEST]"
+
+python - <<'PY'
+
+from Core.dashboard.live import status
+
+print(status())
+
+PY
+
+
+
+python -m py_compile xdeploy.py
+
+
+echo "
+
+╔══════════════════════════════════╗
+║ XDEPLOY v27.1 FIXED               ║
+╚══════════════════════════════════╝
+
+
+RUN:
+
+python xdeploy.py
+
+"
 

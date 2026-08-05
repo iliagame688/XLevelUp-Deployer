@@ -1,14 +1,26 @@
-.git/
+
 __pycache__/
 *.pyc
 
 Core/runtime/
 Core/archive/
-Core/snapshots/
 
-.env
-*.token
-*.secret
+*.backup
+*.log
 
+Core/security/token.json
+
+
+# XDEPLOY secrets
 Core/security/*
-!Core/security/.keep
+!.gitkeep
+
+.xdeploy/
+*.token
+token.json
+github_auth.json
+
+# snapshots
+Core/snapshots/
+Core/runtime/
+

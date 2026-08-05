@@ -1,33 +1,14 @@
 from http.server import BaseHTTPRequestHandler,HTTPServer
 import json
 
-
 from Core.dashboard.center import dashboard
-
-
-try:
-    from Core.control.actions import deploy_action
-    from Core.control.actions import rollback_action
-except:
-
-    def deploy_action():
-        return {
-        "deploy":"READY"
-        }
-
-    def rollback_action():
-        return {
-        "rollback":"READY"
-        }
-
+from Core.events.stream import get_events
+from Core.control.actions import deploy_action,rollback_action
 
 
 HTML="""
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
 
 <title>XDEPLOY v24</title>
@@ -35,35 +16,30 @@ HTML="""
 <style>
 
 body{
-
-background:#090d12;
+background:#0b0f14;
 color:#00ff99;
 font-family:monospace;
 padding:30px;
-
 }
 
-
-.card{
+.box{
 
 border:1px solid #00ff99;
 padding:20px;
 margin:15px;
-border-radius:12px;
+border-radius:10px;
 
 }
-
 
 button{
 
-padding:12px;
-margin:5px;
 background:#00ff99;
 border:0;
+padding:12px;
+margin:5px;
 font-weight:bold;
 
 }
-
 
 pre{
 
@@ -73,9 +49,7 @@ color:white;
 
 </style>
 
-
 </head>
-
 
 <body>
 
@@ -87,23 +61,25 @@ XDEPLOY v24
 </h1>
 
 
-<div class="card">
+<div class="box">
 
 <h2>Status</h2>
 
-<pre id="status"></pre>
+<pre id="status">
+Loading...
+</pre>
 
 </div>
 
 
-<div class="card">
+<div class="box">
 
-<button onclick="call('/deploy')">
+<button onclick="fetch('/deploy')">
 DEPLOY
 </button>
 
 
-<button onclick="call('/rollback')">
+<button onclick="fetch('/rollback')">
 ROLLBACK
 </button>
 
@@ -112,6 +88,15 @@ ROLLBACK
 REFRESH
 </button>
 
+</div>
+
+
+<div class="box">
+
+<h2>Events</h2>
+
+<pre id="events">
+</pre>
 
 </div>
 
@@ -119,14 +104,27 @@ REFRESH
 
 <script>
 
-
 function load(){
 
 fetch('/status')
-.then(x=>x.json())
+.then(r=>r.json())
 .then(x=>{
 
-status.innerHTML=
+document.getElementById(
+"status"
+).innerHTML=
+JSON.stringify(x,null,2)
+
+})
+
+
+fetch('/events')
+.then(r=>r.json())
+.then(x=>{
+
+document.getElementById(
+"events"
+).innerHTML=
 JSON.stringify(x,null,2)
 
 })
@@ -134,44 +132,22 @@ JSON.stringify(x,null,2)
 }
 
 
-
-function call(url){
-
-fetch(url)
-.then(x=>x.json())
-.then(x=>{
-
-alert(
-JSON.stringify(x)
-)
-
-})
-
-}
-
-
-
 setInterval(load,3000)
 
 load()
-
 
 </script>
 
 
 </body>
-
-
 </html>
-
 """
-
 
 
 class Handler(BaseHTTPRequestHandler):
 
 
-    def send_json(self,data):
+    def send(self,data):
 
         self.send_response(200)
 
@@ -185,7 +161,6 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(
         json.dumps(data,indent=4).encode()
         )
-
 
 
     def do_GET(self):
@@ -207,26 +182,30 @@ class Handler(BaseHTTPRequestHandler):
             )
 
 
-
         elif self.path=="/status":
 
-            self.send_json(
+            self.send(
             dashboard()
             )
 
 
+        elif self.path=="/events":
+
+            self.send(
+            get_events()
+            )
+
 
         elif self.path=="/deploy":
 
-            self.send_json(
+            self.send(
             deploy_action()
             )
 
 
-
         elif self.path=="/rollback":
 
-            self.send_json(
+            self.send(
             rollback_action()
             )
 
@@ -234,10 +213,18 @@ class Handler(BaseHTTPRequestHandler):
 
 def start():
 
-    HTTPServer(
+    server=HTTPServer(
     ("0.0.0.0",8080),
     Handler
-    ).serve_forever()
+    )
+
+
+    print(
+    "XDEPLOY WEB CENTER :8080"
+    )
+
+
+    server.serve_forever()
 
 
 

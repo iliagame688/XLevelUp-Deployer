@@ -1,101 +1,53 @@
-import json
-from pathlib import Path
 
-
-from Core.deploy.task import create
-from Core.engine.hub import engine
-
-
-
-QUEUE = Path(
-    "/storage/emulated/0/XLevelUp-Deployer/Core/data/deploy_queue.json"
-)
+from Core.ai.commander import decide
+from Core.deploy.preflight import scan
+from Core.snapshot.manager import create
+from Core.events.live import emit
 
 
 
-def load():
-
-    if not QUEUE.exists():
-
-        return []
-
-    try:
-
-        return json.loads(
-            QUEUE.read_text(
-                encoding="utf-8"
-            )
-        )
-
-    except:
-
-        return []
+def deploy():
 
 
+    check=scan()
 
 
-def save(data):
+    if check["compile"]!="PASS":
 
-    QUEUE.write_text(
 
-        json.dumps(
-            data,
-            indent=4,
-            ensure_ascii=False
-        ),
+        return {
 
-        encoding="utf-8"
+        "status":"BLOCKED",
 
+        "reason":"PREFLIGHT_ERROR",
+
+        "details":check
+
+        }
+
+
+
+    ai=decide()
+
+
+    snap=create()
+
+
+    emit(
+    "DEPLOY_READY",
+    snap
     )
 
 
+    return {
 
 
-def execute():
+    "status":"READY",
 
-    tasks = load()
+    "ai":ai,
 
-
-    results = []
-
-
-    for task in tasks:
+    "snapshot":snap
 
 
-        if task["status"] == "WAITING":
+    }
 
-
-            task["status"] = "RUNNING"
-
-
-            # فعلاً شبیه سازی Provider
-            # مرحله بعد Provider واقعی اضافه می‌شود
-
-
-            task["status"] = "SUCCESS"
-
-
-        results.append(task)
-
-
-
-    save(tasks)
-
-
-    engine.update(
-        "DEPLOY",
-        "EXECUTED"
-    )
-
-
-    engine.snapshot()
-
-
-    return results
-
-
-
-
-if __name__ == "__main__":
-
-    print(execute())

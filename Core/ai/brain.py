@@ -1,27 +1,21 @@
 
-
-class RecoveryBrain:
-
-
-    def analyze(self,error):
-
-        return {
+from datetime import datetime
 
 
-        "error":error,
+def analyze(error):
 
-        "action":
-        "GENERATE_PATCH",
+    return {
 
-        "confidence":
-        99
+    "error":error,
 
+    "action":
+    "GENERATE_PATCH",
 
-        }
+    "confidence":
+    99,
 
+    "time":
+    str(datetime.now())
 
-
-
-brain=RecoveryBrain()
-
+    }
 

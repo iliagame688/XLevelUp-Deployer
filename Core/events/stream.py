@@ -1,29 +1,19 @@
-import datetime
-
+from datetime import datetime
 
 EVENTS=[]
 
 
-def emit(name,data):
+def push(event,data):
 
     EVENTS.append({
 
-        "event":name,
-
+        "event":event,
         "data":data,
-
-        "time":str(
-            datetime.datetime.now()
-        )
+        "time":str(datetime.now())
 
     })
 
 
-    return EVENTS[-1]
+def get_events():
 
-
-
-def history():
-
-    return EVENTS
-
+    return EVENTS[-50:]

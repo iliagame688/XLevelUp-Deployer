@@ -33,5 +33,37 @@
         "type": "CREATED",
         "file": "/storage/emulated/0/XLevelUp Panel/xdeploy.py",
         "time": "2026-08-05 01:58:19"
+    },
+    {
+        "event": "DEPLOY_READY",
+        "data": {
+            "snapshot": "Core/runtime/snapshots/20260806_023500",
+            "status": "CREATED"
+        },
+        "time": "2026-08-06 02:35:00.492943"
+    },
+    {
+        "event": "DEPLOY_READY",
+        "data": {
+            "snapshot": "Core/runtime/snapshots/20260806_023705",
+            "status": "CREATED"
+        },
+        "time": "2026-08-06 02:37:05.974637"
+    },
+    {
+        "event": "DEPLOY_READY",
+        "data": {
+            "snapshot": "Core/runtime/snapshots/20260806_023832",
+            "status": "CREATED"
+        },
+        "time": "2026-08-06 02:38:32.251471"
+    },
+    {
+        "event": "DEPLOY_READY",
+        "data": {
+            "snapshot": "Core/runtime/snapshots/20260806_024001",
+            "status": "CREATED"
+        },
+        "time": "2026-08-06 02:40:01.797403"
     }
 ]

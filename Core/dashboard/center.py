@@ -1,30 +1,61 @@
 from datetime import datetime
-from Core.workspace.watcher import scan
 
 
 def dashboard():
 
+    try:
+        from Core.workspace.watcher import scan
+
+        files=len(scan())
+
+    except Exception:
+        files=0
+
+
     return {
 
-    "engine":"XDEPLOY v20",
+        "engine":"XDEPLOY v23.1",
 
-    "status":"ONLINE",
+        "status":"ONLINE",
 
-    "time":str(datetime.now()),
+        "time":str(datetime.now()),
 
-    "workspace_files":len(scan()),
 
-    "modules":[
-        "Workspace Manager",
-        "Smart Watcher",
-        "Deploy Agent",
-        "Rollback",
-        "AI Recovery"
-    ]
+        "workspace":{
+
+            "files":files,
+
+            "status":"WATCHING"
+
+        },
+
+
+        "modules":[
+
+            "AI Brain",
+
+            "Watcher",
+
+            "Deploy",
+
+            "Recovery",
+
+            "Rollback",
+
+            "Git Engine",
+
+            "Control Plane"
+
+        ],
+
+
+        "server":{
+
+            "status":"READY",
+
+            "port":8080
+
+        }
 
     }
-
-
-if __name__=="__main__":
-    print(dashboard())
 

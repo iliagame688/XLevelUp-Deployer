@@ -1,88 +1,138 @@
-from rich.console import Console
-
-from Core.control.pages import (
-    core_page,
-    project_page,
-    deploy_page,
-    intelligence_page
-)
+from Core.deploy.executor import deploy
+from Core.deploy.preflight import scan
+from Core.snapshot.manager import create
+from Core.events.live import get_events
 
 
+def git_status():
 
-console = Console()
+    import subprocess
+
+    try:
+
+        out=subprocess.check_output(
+            ["git","status","--short"]
+        ).decode()
+
+        return {
+
+        "git":"ONLINE",
+
+        "changes":out.splitlines()
+
+        }
+
+
+    except Exception as e:
+
+        return {
+
+        "git":"ERROR",
+
+        "error":str(e)
+
+        }
 
 
 
 def show():
 
+    print("""
+╔══════════════════════════════════╗
+║     XLEVELUP CONTROL CENTER      ║
+║          XDEPLOY v26             ║
+╚══════════════════════════════════╝
+
+
+[1] AI Deploy
+[2] AI Scan
+[3] Snapshot
+[4] Rollback
+[5] Git Status
+[6] Events
+[7] Exit
+
+""")
+
+
     while True:
 
 
-        console.clear()
-
-
-        console.print(
-            """
-╭──────── XCONTROL ────────╮
-│ XLEVELUP COMMAND CENTER  │
-╰──────────────────────────╯
-
-
-[1] Core Engine
-
-[2] Project
-
-[3] Deploy
-
-[4] Intelligence
-
-[0] Exit
-"""
-        )
-
-
-        choice = console.input(
-            "Select > "
-        )
+        choice=input("> ")
 
 
 
-        console.clear()
+        if choice=="1":
 
+            print("\n[AI DEPLOY]\n")
 
-        if choice == "1":
-
-            console.print(
-                core_page()
+            print(
+            deploy()
             )
 
 
-        elif choice == "2":
 
-            console.print(
-                project_page()
+        elif choice=="2":
+
+            print("\n[AI SCAN]\n")
+
+            print(
+            scan()
             )
 
 
-        elif choice == "3":
 
-            console.print(
-                deploy_page()
+        elif choice=="3":
+
+            print("\n[SNAPSHOT]\n")
+
+            print(
+            create()
             )
 
 
-        elif choice == "4":
 
-            console.print(
-                intelligence_page()
+        elif choice=="4":
+
+            print({
+
+            "rollback":"READY",
+
+            "engine":"XDEPLOY v26"
+
+            })
+
+
+
+        elif choice=="5":
+
+            print(
+            git_status()
             )
 
 
-        elif choice == "0":
+
+        elif choice=="6":
+
+            print(
+            get_events()
+            )
+
+
+
+        elif choice=="7":
+
+            print(
+            "EXIT XDEPLOY"
+            )
 
             break
 
 
-        console.input(
-            "\nPress ENTER..."
-        )
+        else:
+
+            print(
+            "INVALID COMMAND"
+            )
+
+

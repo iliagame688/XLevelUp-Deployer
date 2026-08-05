@@ -1,24 +1,26 @@
-from Core.dashboard.events import write
+from datetime import datetime
 
 
 def deploy():
 
-    result={
+    return {
 
-        "engine":"XDEPLOY v18",
+    "deploy":"READY",
 
-        "action":"DEPLOY",
+    "engine":"XDEPLOY v21",
 
-        "status":"READY"
+    "time":str(datetime.now())
 
     }
 
 
-    write(
-        "DEPLOY_EXECUTED",
-        result
-    )
 
+def rollback():
 
-    return result
+    return {
 
+    "rollback":"READY",
+
+    "engine":"XDEPLOY v21"
+
+    }

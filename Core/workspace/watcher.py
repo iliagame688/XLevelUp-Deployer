@@ -1,79 +1,47 @@
 import os
-import time
-from .manager import load
+from Core.workspace.manager import get_workspace
 
 
 def scan():
 
-    cfg=load()
+    cfg=get_workspace()
 
-    root=cfg["workspace"]
+    if not cfg:
+        return []
 
-    ignore=cfg["ignore"]
 
-    files=[]
+    root=cfg["path"]
 
-    for base,dirs,names in os.walk(root):
+    ignore=cfg.get("ignore",[])
+
+    result=[]
+
+
+    for base,dirs,files in os.walk(root):
 
         dirs[:]=[
             d for d in dirs
             if d not in ignore
         ]
 
-        for n in names:
 
-            path=os.path.join(base,n)
+        for f in files:
 
-            if not any(
-                x in path
-                for x in ignore
-            ):
-                files.append(path)
+            if f.endswith(".py"):
 
-    return files
+                result.append(
+                    os.path.join(base,f)
+                )
 
 
-
-def watch():
-
-    old=set(scan())
-
-    print(
-        "WATCHING:",
-        len(old),
-        "files"
-    )
-
-
-    while True:
-
-        time.sleep(2)
-
-        new=set(scan())
-
-        added=list(new-old)
-
-        removed=list(old-new)
-
-
-        if added:
-            print(
-                "ADDED",
-                added
-            )
-
-
-        if removed:
-            print(
-                "REMOVED",
-                removed
-            )
-
-
-        old=new
-
+    return result
 
 
 if __name__=="__main__":
-    watch()
 
+    print(
+        {
+        "files":len(scan()),
+        "status":"WATCHING"
+        }
+    )

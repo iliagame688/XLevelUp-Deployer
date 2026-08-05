@@ -1,10 +1,9 @@
-
 import os
 import json
 
 
-PATH=os.path.expanduser(
-"~/.xdeploy/token.json"
+FILE=os.path.expanduser(
+"~/.xdeploy/vault.json"
 )
 
 
@@ -12,32 +11,33 @@ PATH=os.path.expanduser(
 def save(token):
 
     os.makedirs(
-    os.path.dirname(PATH),
-    exist_ok=True
+        os.path.dirname(FILE),
+        exist_ok=True
     )
 
-
-    with open(PATH,"w") as f:
+    with open(FILE,"w") as f:
 
         json.dump(
-        {
-        "token":token
-        },
-        f
+            {
+             "github_token":token
+            },
+            f
         )
 
 
-    return "TOKEN SAVED"
+    return {
+    "status":"SAVED"
+    }
 
 
 
 def load():
 
-    if not os.path.exists(PATH):
+    if not os.path.exists(FILE):
+
         return None
 
 
-    with open(PATH) as f:
+    with open(FILE) as f:
 
         return json.load(f)
-

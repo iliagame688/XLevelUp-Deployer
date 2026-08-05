@@ -1,0 +1,8 @@
+{
+    "engine": "XDEPLOY v30",
+    "workspace": "/storage/emulated/0/Xlevelup-Panel",
+    "branch": "main",
+    "auto_snapshot": true,
+    "auto_deploy": false,
+    "watcher": true
+}

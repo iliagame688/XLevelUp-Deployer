@@ -2,28 +2,19 @@ import json
 import os
 
 
-CONFIG="Core/config/workspace.json"
+CONFIG="Core/config/system.json"
 
 
-def get_workspace():
+def load():
 
     with open(CONFIG) as f:
-
         return json.load(f)
 
 
 
-def set_workspace(path):
-
-    data={
-        "path":os.path.abspath(path),
-        "watch":True,
-        "auto_snapshot":True
-    }
-
+def save(data):
 
     with open(CONFIG,"w") as f:
-
         json.dump(
             data,
             f,
@@ -31,5 +22,25 @@ def set_workspace(path):
         )
 
 
-    return data
 
+def set_workspace(path):
+
+    data=load()
+
+    data["workspace"]=os.path.abspath(path)
+
+    save(data)
+
+    return {
+        "workspace":
+        data["workspace"]
+    }
+
+
+
+def get_workspace():
+
+    return load().get(
+        "workspace",
+        ""
+    )

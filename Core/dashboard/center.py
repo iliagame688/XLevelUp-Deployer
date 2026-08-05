@@ -1,27 +1,46 @@
+import datetime
 
-from Core.watcher.manager import status
+from Core.workspace.manager import get_workspace
+from Core.watcher.engine import state
 
 
-def dashboard():
+
+def status():
 
     return {
 
     "engine":
-    "XDEPLOY v28.2",
+    "XDEPLOY v30",
 
     "status":
     "ONLINE",
 
-    "workspace":
-    status(),
+    "time":
+    str(datetime.datetime.now()),
+
+    "workspace":{
+
+        "path":
+        get_workspace(),
+
+        "files":
+        state()["files"],
+
+        "status":
+        "WATCHING"
+
+    },
+
 
     "modules":[
-    "Watcher",
-    "Snapshot",
-    "Deploy",
-    "Git Engine",
-    "Security"
+
+        "AI",
+        "Watcher",
+        "Snapshot",
+        "Deploy",
+        "Rollback",
+        "Git Engine"
+
     ]
 
     }
-

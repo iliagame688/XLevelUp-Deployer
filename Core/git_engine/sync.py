@@ -1,39 +1,39 @@
-
 import subprocess
 
 
-
-def run(cmd):
+def execute(cmd):
 
     return subprocess.run(
-    cmd,
-    shell=True,
-    text=True,
-    capture_output=True
+        cmd,
+        shell=True,
+        text=True,
+        capture_output=True
     )
 
 
 
-def sync(message="XDEPLOY AUTO SYNC"):
+def sync(message):
 
 
-    run(
-    "git add -A"
+    add=execute(
+        "git add -A"
     )
 
 
-    commit=run(
-    f'git commit -m "{message}"'
+    commit=execute(
+        f'git commit -m "{message}"'
     )
 
 
-    push=run(
-    "git push origin main"
+    push=execute(
+        "git push origin main"
     )
 
 
     return {
 
+    "add":
+    add.returncode==0,
 
     "commit":
     commit.stdout,
@@ -45,4 +45,3 @@ def sync(message="XDEPLOY AUTO SYNC"):
     push.stderr
 
     }
-

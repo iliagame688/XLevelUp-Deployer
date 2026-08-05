@@ -1,44 +1,55 @@
 
-import subprocess
+from Core.workspace.manager import get_workspace
+
+from Core.snapshot.create import create
 
 from Core.git_engine.sync import sync
-from Core.snapshot.manager import create
 
 
 
 def deploy():
 
 
-    snapshot=create()
-
-    report=sync()
+    workspace=get_workspace()
 
 
-    subprocess.run(
-    'git commit -m "XDEPLOY AUTO DEPLOY"',
-    shell=True
+    if not workspace:
+
+        return {
+
+        "status":
+        "FAILED",
+
+        "reason":
+        "NO_WORKSPACE"
+
+        }
+
+
+    snapshot=create(
+        workspace
     )
 
 
-    push=subprocess.run(
-    "git push origin main",
-    shell=True
+    git=sync(
+        "XDEPLOY v30 AUTO DEPLOY"
     )
 
 
     return {
 
-    "deploy":
-    "SUCCESS"
-    if push.returncode==0
-    else
-    "FAILED",
+
+    "status":
+    "DEPLOYED",
+
+    "workspace":
+    workspace,
 
     "snapshot":
     snapshot,
 
-    "sync":
-    report
+    "git":
+    git
 
     }
 

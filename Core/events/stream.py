@@ -1,19 +1,60 @@
-from datetime import datetime
+import json
+import os
+import datetime
 
-EVENTS=[]
+
+FILE="Core/data/events.json"
 
 
-def push(event,data):
 
-    EVENTS.append({
+def emit(event,data):
 
-        "event":event,
-        "data":data,
-        "time":str(datetime.now())
+    os.makedirs(
+        "Core/data",
+        exist_ok=True
+    )
+
+
+    events=[]
+
+
+    if os.path.exists(FILE):
+
+        with open(FILE) as f:
+            events=json.load(f)
+
+
+    events.append({
+
+        "event":
+        event,
+
+        "data":
+        data,
+
+        "time":
+        str(datetime.datetime.now())
 
     })
 
 
-def get_events():
+    with open(FILE,"w") as f:
 
-    return EVENTS[-50:]
+        json.dump(
+            events[-100:],
+            f,
+            indent=4
+        )
+
+
+
+def get():
+
+    if not os.path.exists(FILE):
+
+        return []
+
+
+    with open(FILE) as f:
+
+        return json.load(f)

@@ -1,7 +1,21 @@
 
+import os
 
-from Core.dashboard.live import status
-from Core.watcher.manager import set_workspace,info
+from Core.dashboard.center import status
+
+from Core.deploy.engine import deploy
+
+from Core.workspace.manager import set_workspace
+
+from Core.security.token import save
+
+from Core.recovery.rollback import rollback
+
+
+
+def clear():
+
+    os.system("clear")
 
 
 
@@ -9,92 +23,86 @@ def run():
 
     while True:
 
+        clear()
 
         print("""
-
 ╔══════════════════════════════════╗
-║     XLEVELUP CONTROL CENTER       ║
-║          XDEPLOY v27              ║
+║      XLEVELUP CONTROL CENTER      ║
+║          XDEPLOY v30              ║
 ╚══════════════════════════════════╝
-
-
-LIVE STATUS
-
 """)
 
-
+        print("LIVE STATUS")
         print(status())
 
 
         print("""
-[1] Change Watch Folder
+[1] Change Workspace
 [2] Deploy
 [3] Rollback
-[4] Snapshot
-[5] Git Status
-[6] Exit
-
+[4] Token Settings
+[5] Exit
 """)
 
 
         cmd=input("> ")
 
 
+
         if cmd=="1":
 
-            p=input(
-            "New Watch Path: "
+            path=input(
+            "Workspace Path: "
             )
 
             print(
-            set_workspace(p)
+            set_workspace(path)
+            )
+
+
+            input(
+            "ENTER RETURN..."
             )
 
 
         elif cmd=="2":
 
             print(
-            {
-            "deploy":"READY",
-            "engine":"XDEPLOY v27"
-            }
+            deploy()
+            )
+
+            input(
+            "ENTER RETURN..."
             )
 
 
         elif cmd=="3":
 
             print(
-            {
-            "rollback":"READY"
-            }
+            rollback()
+            )
+
+            input(
+            "ENTER RETURN..."
             )
 
 
         elif cmd=="4":
 
+            token=input(
+            "GitHub Token: "
+            )
+
             print(
-            {
-            "snapshot":
-            "CREATED"
-            }
+            save(token)
+            )
+
+            input(
+            "ENTER RETURN..."
             )
 
 
         elif cmd=="5":
 
-            import os
-
-            os.system(
-            "git status"
-            )
-
-
-        elif cmd=="6":
-
             break
-
-
-        input(
-        "\nENTER RETURN..."
-        )
 

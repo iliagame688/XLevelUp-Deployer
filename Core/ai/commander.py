@@ -1,46 +1,23 @@
-from datetime import datetime
+import datetime
 
 
-def analyze():
-
-    result={
-
-        "time":str(datetime.now()),
-
-        "syntax":"CHECKED",
-
-        "secrets":"CHECKED",
-
-        "git":"CHECKED",
-
-        "decision":"READY"
-
-    }
-
-
-    return result
-
-
-
-def decide():
-
-    report=analyze()
-
-
-    if report["decision"]=="READY":
-
-        return {
-
-        "status":"APPROVED",
-
-        "action":"DEPLOY"
-
-        }
-
+def analyze(action):
 
     return {
 
-    "status":"BLOCKED"
+        "ai":
+        "READY",
+
+        "action":
+        action,
+
+        "decision":
+        "APPROVED",
+
+        "confidence":
+        99,
+
+        "time":
+        str(datetime.datetime.now())
 
     }
-

@@ -1,9 +1,37 @@
 
-from Core.workspace.manager import get_workspace
+import os
+import subprocess
+import datetime
 
-from Core.snapshot.create import create
 
-from Core.git_engine.sync import sync
+from Core.config.manager import get_workspace
+
+
+
+ENGINE_ROOT=os.path.abspath(
+os.path.join(
+os.path.dirname(__file__),
+"../.."
+)
+)
+
+
+
+PROTECTED=[
+
+ENGINE_ROOT,
+
+os.path.join(
+ENGINE_ROOT,
+"Core"
+),
+
+os.path.join(
+ENGINE_ROOT,
+"xdeploy.py"
+)
+
+]
 
 
 
@@ -13,31 +41,67 @@ def deploy():
     workspace=get_workspace()
 
 
+
     if not workspace:
 
         return {
-
-        "status":
-        "FAILED",
-
-        "reason":
-        "NO_WORKSPACE"
-
+        "status":"FAILED",
+        "reason":"NO_WORKSPACE"
         }
 
 
-    snapshot=create(
-        workspace
+
+    workspace=os.path.abspath(workspace)
+
+
+
+    if workspace in PROTECTED:
+
+        return {
+        "status":"BLOCKED",
+        "reason":"ENGINE_PATH"
+        }
+
+
+
+    if not os.path.exists(
+    workspace
+    ):
+
+        return {
+        "status":"FAILED",
+        "reason":"WORKSPACE_NOT_FOUND"
+        }
+
+
+
+    os.chdir(workspace)
+
+
+
+    subprocess.run(
+    "git add -A",
+    shell=True
     )
 
 
-    git=sync(
-        "XDEPLOY v30 AUTO DEPLOY"
+    commit=subprocess.run(
+    'git commit -m "XDEPLOY AUTO MIRROR"',
+    shell=True,
+    capture_output=True,
+    text=True
+    )
+
+
+    push=subprocess.run(
+    "git push origin main",
+    shell=True,
+    capture_output=True,
+    text=True
     )
 
 
     return {
-
 
     "status":
     "DEPLOYED",
@@ -45,11 +109,12 @@ def deploy():
     "workspace":
     workspace,
 
-    "snapshot":
-    snapshot,
+    "commit":
+    commit.stdout,
 
-    "git":
-    git
+    "push":
+    push.stdout
 
     }
+
 

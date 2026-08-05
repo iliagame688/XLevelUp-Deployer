@@ -1,8 +1,6 @@
 {
-    "engine": "XDEPLOY v30",
-    "workspace": "/storage/emulated/0/Xlevelup-Panel",
-    "branch": "main",
-    "auto_snapshot": true,
-    "auto_deploy": false,
-    "watcher": true
+    "engine": "XDEPLOY v32",
+    "workspace": "/storage/emulated/0/Xlevelup-Panel/",
+    "repo": "iliagame688/XLevelUp-Deployer",
+    "branch": "main"
 }

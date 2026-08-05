@@ -1,81 +1,46 @@
 
-import datetime
-import os
-
-try:
-    from Core.watcher.config import load
-except:
-    load=lambda:{
-        "path":os.getcwd()
-    }
+from Core.config.settings import load
+from Core.watcher.engine import state
 
 
 
-def status():
+def show():
 
-    try:
-
-        cfg=load()
-
-        root=cfg.get(
-            "path",
-            os.getcwd()
-        )
-
-    except:
-
-        root=os.getcwd()
-
-
-    count=0
-
-
-    try:
-
-        for r,d,f in os.walk(root):
-
-            if "Core/runtime" in r:
-                continue
-
-            count += len(f)
-
-
-    except:
-
-        pass
+    cfg=load()
 
 
     return {
 
-    "engine":
-    "XDEPLOY v27.1",
-
-    "status":
-    "ONLINE",
-
-    "time":
-    str(datetime.datetime.now()),
+        "engine":
+        cfg.get(
+        "engine",
+        "XDEPLOY v32"
+        ),
 
 
-    "workspace":
-    {
-    "path":root,
-    "files":count,
-    "status":"WATCHING"
-    },
+        "workspace":
+        cfg.get(
+        "workspace",
+        ""
+        ),
 
 
-    "modules":
-    [
-    "AI Brain",
-    "Watcher",
-    "Deploy",
-    "Recovery",
-    "Rollback",
-    "Git Engine",
-    "Control Plane"
-    ]
+        "repo":
+        cfg.get(
+        "repo",
+        ""
+        ),
+
+
+        "branch":
+        cfg.get(
+        "branch",
+        "main"
+        ),
+
+
+        "watcher":
+        state()
 
     }
-
 

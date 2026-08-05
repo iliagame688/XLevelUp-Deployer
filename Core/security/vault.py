@@ -3,42 +3,43 @@ import os
 import json
 
 
-VAULT=os.path.expanduser(
+PATH=os.path.expanduser(
 "~/.xdeploy/vault.json"
 )
 
 
-def save_token(token):
+
+def set_token(token):
 
     os.makedirs(
-    os.path.dirname(VAULT),
-    exist_ok=True
+        os.path.dirname(PATH),
+        exist_ok=True
     )
 
-    with open(VAULT,"w") as f:
+
+    with open(PATH,"w") as f:
 
         json.dump(
-        {
-        "github_token":token
-        },
-        f
+            {
+            "token":token
+            },
+            f
         )
 
 
     return {
-    "status":"SAVED"
+    "token":
+    "SAVED"
     }
 
 
 
-def load_token():
+def status():
 
-    if not os.path.exists(VAULT):
+    return {
 
-        return None
+    "vault":
+    os.path.exists(PATH)
 
-
-    with open(VAULT) as f:
-
-        return json.load(f)
+    }
 

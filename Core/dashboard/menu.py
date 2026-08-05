@@ -1,15 +1,13 @@
 
+
 import os
 
-from Core.dashboard.center import status
 
-from Core.deploy.engine import deploy
+from Core.dashboard.live import show
 
-from Core.workspace.manager import set_workspace
+from Core.config.settings import update
 
-from Core.security.token import save
-
-from Core.recovery.rollback import rollback
+from Core.security.vault import set_token,status
 
 
 
@@ -23,25 +21,31 @@ def run():
 
     while True:
 
+
         clear()
+
 
         print("""
 ╔══════════════════════════════════╗
-║      XLEVELUP CONTROL CENTER      ║
-║          XDEPLOY v30              ║
+║     XLEVELUP CONTROL CENTER      ║
+║          XDEPLOY v32             ║
 ╚══════════════════════════════════╝
 """)
 
-        print("LIVE STATUS")
-        print(status())
+
+        print(
+        show()
+        )
 
 
         print("""
+
 [1] Change Workspace
-[2] Deploy
-[3] Rollback
+[2] Set Repo
+[3] Set Branch
 [4] Token Settings
 [5] Exit
+
 """)
 
 
@@ -51,58 +55,74 @@ def run():
 
         if cmd=="1":
 
-            path=input(
-            "Workspace Path: "
+            p=input(
+            "Workspace: "
             )
 
             print(
-            set_workspace(path)
+            update(
+            "workspace",
+            p
             )
-
-
-            input(
-            "ENTER RETURN..."
             )
 
 
         elif cmd=="2":
 
-            print(
-            deploy()
+            r=input(
+            "Repository: "
             )
 
-            input(
-            "ENTER RETURN..."
+            print(
+            update(
+            "repo",
+            r
+            )
             )
 
 
         elif cmd=="3":
 
-            print(
-            rollback()
+            b=input(
+            "Branch: "
             )
 
-            input(
-            "ENTER RETURN..."
+            print(
+            update(
+            "branch",
+            b
+            )
             )
 
 
         elif cmd=="4":
 
-            token=input(
-            "GitHub Token: "
+            t=input(
+            "Git Token: "
             )
 
             print(
-            save(token)
+            set_token(t)
             )
 
-            input(
-            "ENTER RETURN..."
+            print(
+            status()
             )
 
 
         elif cmd=="5":
 
             break
+
+
+        input(
+        "ENTER RETURN..."
+        )
+
+
+
+# XDEPLOY v33 AUTO
+
+from Core/deploy.auto import deploy
+
 

@@ -1,24 +1,55 @@
+
 import json
 import os
 
 
-CONFIG="Core/config/system.json"
+ROOT=os.path.dirname(
+    os.path.dirname(
+        os.path.abspath(__file__)
+    )
+)
+
+
+FILE=os.path.join(
+    ROOT,
+    "config",
+    "system.json"
+)
+
 
 
 def load():
 
-    with open(CONFIG) as f:
+    if not os.path.exists(FILE):
+
+        return {
+        "engine":"XDEPLOY v33.2",
+        "workspace":"",
+        "repo":"",
+        "branch":"main"
+        }
+
+
+    with open(FILE) as f:
+
         return json.load(f)
 
 
 
 def save(data):
 
-    with open(CONFIG,"w") as f:
+    os.makedirs(
+    os.path.dirname(FILE),
+    exist_ok=True
+    )
+
+
+    with open(FILE,"w") as f:
+
         json.dump(
-            data,
-            f,
-            indent=4
+        data,
+        f,
+        indent=4
         )
 
 
@@ -31,10 +62,7 @@ def set_workspace(path):
 
     save(data)
 
-    return {
-        "workspace":
-        data["workspace"]
-    }
+    return data
 
 
 
@@ -44,3 +72,4 @@ def get_workspace():
         "workspace",
         ""
     )
+

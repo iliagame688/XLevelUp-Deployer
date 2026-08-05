@@ -1,5 +1,6 @@
 {
-    "path": "/storage/emulated/0/XLevelUp-Deployer",
-    "watch": true,
-    "auto_snapshot": true
+    "workspace": "/storage/emulated/0/Xlevelup-Panel/",
+    "repo": "",
+    "branch": "main",
+    "auto_deploy": true
 }

@@ -1,41 +1,24 @@
 import os
-import shutil
-from datetime import datetime
-
-
-
-BASE="Core/runtime/snapshots"
-
+import datetime
 
 
 def create():
 
+    name = datetime.datetime.now().strftime(
+        "%Y%m%d_%H%M%S"
+    )
+
+    path = f"Core/snapshots/{name}"
 
     os.makedirs(
-    BASE,
-    exist_ok=True
+        path,
+        exist_ok=True
     )
-
-
-    name=datetime.now().strftime(
-    "%Y%m%d_%H%M%S"
-    )
-
-
-    target=os.path.join(
-    BASE,
-    name
-    )
-
-
-    os.makedirs(target)
-
 
     return {
 
-    "snapshot":target,
+        "snapshot": path,
 
-    "status":"CREATED"
+        "status": "CREATED"
 
     }
-

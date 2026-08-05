@@ -24,3 +24,45 @@ github_auth.json
 Core/snapshots/
 Core/runtime/
 
+
+# XDEPLOY SECURITY
+Core/security/*
+!.gitkeep
+
+# Runtime
+Core/runtime/
+Core/snapshots/
+
+# Python
+__pycache__/
+*.pyc
+
+# Local Vault
+.xdeploy/
+*.token
+token.json
+github_auth.json
+
+
+# XDEPLOY SECURITY
+
+Core/security/*
+!.gitkeep
+
+.xdeploy/
+
+*.token
+token.json
+github_auth.json
+
+
+# Runtime
+
+Core/runtime/
+Core/snapshots/
+
+# Python
+
+__pycache__/
+*.pyc
+

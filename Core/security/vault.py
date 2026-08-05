@@ -1,27 +1,44 @@
-from pathlib import Path
+
+import os
+import json
 
 
-VAULT = Path(
-    "/storage/emulated/0/XLevelUp-Deployer/Core/security/.vault"
+VAULT=os.path.expanduser(
+"~/.xdeploy/vault.json"
 )
 
 
+def save_token(token):
 
-def save(key, value):
-
-    VAULT.parent.mkdir(
-        parents=True,
-        exist_ok=True
+    os.makedirs(
+    os.path.dirname(VAULT),
+    exist_ok=True
     )
 
+    with open(VAULT,"w") as f:
 
-    VAULT.write_text(
-        f"{key}:{value}",
-        encoding="utf-8"
-    )
+        json.dump(
+        {
+        "github_token":token
+        },
+        f
+        )
+
+
+    return {
+    "status":"SAVED"
+    }
 
 
 
-def exists():
+def load_token():
 
-    return VAULT.exists()
+    if not os.path.exists(VAULT):
+
+        return None
+
+
+    with open(VAULT) as f:
+
+        return json.load(f)
+

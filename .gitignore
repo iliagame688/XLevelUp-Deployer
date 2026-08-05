@@ -5,29 +5,43 @@
 
 *.secret
 
-Core/security/*
-
-Core/runtime/*.json
-
-Core/snapshots/*.json
+*.log
 
 __pycache__/
 
 *.pyc
 
 
-__pycache__/
-*.pyc
+Core/runtime/
 
-Core/runtime/*
+Core/security/*.json
 
-Core/archive/*
 
 *.backup
 
-*.log
 
+# XDEPLOY Runtime
+Core/runtime/
+Core/archive/
+__pycache__/
+*.pyc
+
+# Secrets
 .env
-
 *.token
+*.secret
+*.json
+
+
+# XDEPLOY Runtime
+Core/runtime/
+Core/archive/
+__pycache__/
+*.pyc
+
+# Secrets
+.env
+*.token
+*.secret
+*.json
 

@@ -1,10 +1,22 @@
 
 
-from Core.dashboard.live import dashboard
+from Core.dashboard import dashboard
 
 
 def run():
 
-    return dashboard()
+
+    return {
+
+
+    "deploy":
+    "READY",
+
+    "dashboard":
+    dashboard()
+
+
+    }
+
 
 

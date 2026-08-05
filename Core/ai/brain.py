@@ -1,22 +1,27 @@
 
 
-class AIBrain:
+class RecoveryBrain:
 
 
     def analyze(self,error):
 
         return {
 
+
         "error":error,
 
-        "decision":
-        "AUTO_RECOVERY",
+        "action":
+        "GENERATE_PATCH",
 
         "confidence":
-        98
+        99
+
 
         }
 
 
-brain=AIBrain()
+
+
+brain=RecoveryBrain()
+
 

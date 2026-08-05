@@ -18,10 +18,13 @@ from Core.dashboard.live.event_bus import bus
 class DeployPipeline:
 
 
-    def run(self, workspace, config):
+    def run(
+
+
 
         print('XDEPLOY STEP TRACE STARTED')
 
+self, workspace, config):
 
 
         state.steps.clear()

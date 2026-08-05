@@ -1,35 +1,24 @@
 
 
-import json
 import os
+import shutil
 
 
-STATE="Core/runtime/state.json"
+def rollback(snapshot):
 
 
-def save(data):
+    if os.path.exists(snapshot):
 
-    os.makedirs(
-    "Core/runtime",
-    exist_ok=True
-    )
-
-
-    json.dump(
-    data,
-    open(STATE,"w"),
-    indent=4
-    )
-
-
-
-def load():
-
-    if os.path.exists(STATE):
-
-        return json.load(
-        open(STATE)
+        shutil.copytree(
+        snapshot,
+        ".",
+        dirs_exist_ok=True
         )
 
-    return {}
+
+        return True
+
+
+    return False
+
 

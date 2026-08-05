@@ -1,1 +1,5 @@
-# XCONTROL DASHBOARD
+
+
+from .kernel import dashboard
+
+

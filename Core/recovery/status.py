@@ -1,29 +1,26 @@
+import datetime
 
 
-from datetime import datetime
-
-
-def dashboard():
-
+def status():
 
     return {
 
-        "engine":"XDEPLOY v10",
+        "engine":"XDEPLOY v15",
 
         "status":"ONLINE",
 
-        "time":str(datetime.now()),
+        "time":str(datetime.datetime.now()),
 
         "modules":[
-
             "AI Brain",
             "Watcher",
             "Deploy",
             "Recovery",
             "Rollback"
-
         ]
 
     }
 
 
+if __name__=="__main__":
+    print(status())

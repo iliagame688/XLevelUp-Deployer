@@ -1,0 +1,18 @@
+[
+    {
+        "time": "2026-08-06 03:49:55.861087",
+        "event": "MANUAL_DEPLOY"
+    },
+    {
+        "time": "2026-08-06 04:08:29.536871",
+        "event": "MANUAL_DEPLOY"
+    },
+    {
+        "time": "2026-08-06 04:10:22.961786",
+        "event": "MANUAL_DEPLOY"
+    },
+    {
+        "time": "2026-08-06 04:12:04.470408",
+        "event": "MANUAL_DEPLOY"
+    }
+]

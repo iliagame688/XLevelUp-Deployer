@@ -1,39 +1,38 @@
-import json
+
 import os
-import datetime
+import json
+from datetime import datetime
 
 
-FILE="Core/data/events.json"
+FILE="runtime/events/live.json"
 
 
 
-def emit(event,data):
+def push(event):
 
     os.makedirs(
-        "Core/data",
+        "runtime/events",
         exist_ok=True
     )
 
 
-    events=[]
+    data=[]
 
 
     if os.path.exists(FILE):
 
         with open(FILE) as f:
-            events=json.load(f)
+            data=json.load(f)
 
 
-    events.append({
 
-        "event":
-        event,
-
-        "data":
-        data,
+    data.append({
 
         "time":
-        str(datetime.datetime.now())
+        str(datetime.now()),
+
+        "event":
+        event
 
     })
 
@@ -41,14 +40,14 @@ def emit(event,data):
     with open(FILE,"w") as f:
 
         json.dump(
-            events[-100:],
+            data,
             f,
             indent=4
         )
 
 
 
-def get():
+def read():
 
     if not os.path.exists(FILE):
 
@@ -58,3 +57,4 @@ def get():
     with open(FILE) as f:
 
         return json.load(f)
+

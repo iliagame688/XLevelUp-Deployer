@@ -1,57 +1,39 @@
-from pathlib import Path
+
+import os
 
 
+IGNORE=[
 
-class WorkspaceScanner:
+".git",
 
+".xdeploy"
 
-    def scan(self, path):
+]
 
-
-        root = Path(path)
-
-
-        files = []
-
-
-        if root.exists():
-
-
-            for item in root.rglob("*"):
-
-                if item.is_file():
-
-                    files.append(
-                        item.name
-                    )
-
-
-        return {
-
-
-            "path":
-                str(root),
-
-
-            "files":
-                files,
-
-            "count":
-                len(files)
-
-        }
-
-
-
-
-scanner = WorkspaceScanner()
-
-
-# Compatibility API
-# Supports old collector imports
 
 def scan(path):
 
-    return scanner.scan(path)
+    files=[]
+
+
+    for root,dirs,fs in os.walk(path):
+
+        dirs[:]=[
+        d for d in dirs
+        if d not in IGNORE
+        ]
+
+
+        for f in fs:
+
+            files.append(
+            os.path.relpath(
+            os.path.join(root,f),
+            path
+            )
+            )
+
+
+    return files
 
 

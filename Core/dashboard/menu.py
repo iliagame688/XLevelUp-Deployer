@@ -1,128 +1,75 @@
+from Core.v68.engine import deploy
 
 
-import os
-
-
-from Core.dashboard.live import show
-
-from Core.config.settings import update
-
-from Core.security.vault import set_token,status
-
-
-
-def clear():
-
-    os.system("clear")
-
+AUTO=True
 
 
 def run():
 
+    global AUTO
+
+
     while True:
-
-
-        clear()
-
 
         print("""
 ╔══════════════════════════════════╗
-║     XLEVELUP CONTROL CENTER      ║
-║          XDEPLOY v32             ║
+║      XLEVELUP CONTROL CENTER     ║
+║           XDEPLOY v68            ║
 ╚══════════════════════════════════╝
+
+
+AUTO DEPLOY: %s
+
+
+[1] Deploy Now
+[2] Toggle Auto Deploy
+[3] Events
+[4] Exit
+
+""" % ("ON" if AUTO else "OFF"))
+
+
+
+        c=input("> ")
+
+
+        if c=="1":
+
+            print("""
+
+╔════════════════════════════╗
+║       XDEPLOY v68 REPORT    ║
+╚════════════════════════════╝
+
 """)
 
 
-        print(
-        show()
-        )
-
-
-        print("""
-
-[1] Change Workspace
-[2] Set Repo
-[3] Set Branch
-[4] Token Settings
-[5] Exit
-
-""")
-
-
-        cmd=input("> ")
-
-
-
-        if cmd=="1":
-
-            p=input(
-            "Workspace: "
+            print(
+                deploy()
             )
+
+            input(
+                "\nENTER RETURN..."
+            )
+
+
+        elif c=="2":
+
+            AUTO=not AUTO
+
+
+        elif c=="3":
 
             print(
-            update(
-            "workspace",
-            p
-            )
+                "EVENT SYSTEM READY"
             )
 
-
-        elif cmd=="2":
-
-            r=input(
-            "Repository: "
-            )
-
-            print(
-            update(
-            "repo",
-            r
-            )
+            input(
+                "\nENTER RETURN..."
             )
 
 
-        elif cmd=="3":
-
-            b=input(
-            "Branch: "
-            )
-
-            print(
-            update(
-            "branch",
-            b
-            )
-            )
-
-
-        elif cmd=="4":
-
-            t=input(
-            "Git Token: "
-            )
-
-            print(
-            set_token(t)
-            )
-
-            print(
-            status()
-            )
-
-
-        elif cmd=="5":
+        elif c=="4":
 
             break
-
-
-        input(
-        "ENTER RETURN..."
-        )
-
-
-
-# XDEPLOY v33 AUTO
-
-from Core/deploy.auto import deploy
-
 

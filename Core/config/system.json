@@ -1,6 +1,7 @@
 {
-    "engine": "XDEPLOY v32",
+    "engine": "XDEPLOY v37",
     "workspace": "/storage/emulated/0/Xlevelup-Panel/",
-    "repo": "iliagame688/XLevelUp-Deployer",
-    "branch": "main"
+    "repo": "https://github.com/iliagame688/XLevelUp-Deployer",
+    "branch": "main",
+    "auto_deploy": true
 }

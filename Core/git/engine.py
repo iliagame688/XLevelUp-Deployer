@@ -1,72 +1,95 @@
-from git.repository import find_repo
-from git.status import git_status
-from git.remote import get_remote
+import os
+import subprocess
 
 
+def sh(cmd):
 
-def inspect_workspace(path):
-
-    print("""
-╭──────────────────────────╮
-│ XDEPLOY GIT ENGINE       │
-╰──────────────────────────╯
-""")
-
-
-    repo = find_repo(path)
-
-
-    if not repo:
-
-        print(
-            "REPOSITORY\n✗ NOT FOUND"
-        )
-
-        return None
-
-
-    print(
-        "REPOSITORY\n✓ DETECTED"
-    )
-
-    print(
-        repo
+    return subprocess.run(
+        cmd,
+        shell=True,
+        capture_output=True,
+        text=True
     )
 
 
-    changes = git_status(repo)
+def prepare(repo_path,remote=None):
 
-
-    print()
-
-    print(
-        "CHANGES:",
-        len(changes)
+    os.makedirs(
+        repo_path,
+        exist_ok=True
     )
 
+    os.chdir(repo_path)
 
-    remote = get_remote(repo)
+
+    if not os.path.exists(".git"):
+
+        sh("git init")
 
 
-    print()
+    sh(
+    'git config user.name "XDEPLOY-AI"'
+    )
+
+    sh(
+    'git config user.email "xdeploy@local.engine"'
+    )
+
 
     if remote:
 
-        print(
-            "REMOTE\n✓ CONFIGURED"
+        r=sh(
+        "git remote"
         )
 
-        print(remote)
+        if "origin" not in r.stdout:
 
-    else:
+            sh(
+            f"git remote add origin {remote}"
+            )
 
-        print(
-            "REMOTE\n○ NOT CONFIGURED"
-        )
+
+def status():
+
+    return sh(
+    "git status --short"
+    ).stdout
+
+
+
+def deploy():
+
+    sh(
+    "git add -A"
+    )
+
+    s=status()
+
+
+    if not s:
+
+        return {
+        "git":"CLEAN"
+        }
+
+
+    c=sh(
+    'git commit -m "XDEPLOY v42 AUTO SYNC"'
+    )
+
+
+    p=sh(
+    "git push origin main"
+    )
 
 
     return {
-        "repo": str(repo),
-        "changes": changes,
-        "remote": remote
+
+    "commit":
+    c.stdout or c.stderr,
+
+    "push":
+    p.stdout or p.stderr
+
     }
+

@@ -1,29 +1,50 @@
-from Core.git.gateway import gateway
-from Core.git.safe import safe_git
+
 import subprocess
 
 
+def run(cmd):
 
-def get_remote(repo):
+    return subprocess.run(
+        cmd,
+        shell=True,
+        capture_output=True,
+        text=True
+    )
 
-    try:
 
-        result = subprocess.run(
-            [
-                "git",
-                "-C",
-                str(repo),
-                "remote",
-                "-v"
-            ],
-            capture_output=True,
-            text=True
+
+def setup(repo):
+
+
+    current=run(
+        "git remote get-url origin"
+    )
+
+
+    if current.returncode != 0:
+
+
+        run(
+            f"git remote add origin {repo}"
         )
 
 
-        return result.stdout.strip()
+    else:
 
 
-    except Exception:
+        url=current.stdout.strip()
 
-        return ""
+
+        if url != repo:
+
+            run(
+            f"git remote set-url origin {repo}"
+            )
+
+
+
+    return run(
+        "git remote -v"
+    ).stdout
+
+

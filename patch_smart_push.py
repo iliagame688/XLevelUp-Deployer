@@ -1,0 +1,116 @@
+import os
+import glob
+import shutil
+from datetime import datetime
+
+
+TARGET_IMPORT = "from Core.git.smart_push import smart_push"
+
+
+def backup(path):
+
+    backup = path + ".backup_" + datetime.now().strftime("%H%M%S")
+
+    shutil.copy(
+        path,
+        backup
+    )
+
+    print("BACKUP:", backup)
+
+
+
+def patch_file(path):
+
+    with open(path,"r") as f:
+        data=f.read()
+
+
+    if TARGET_IMPORT in data:
+        return False
+
+
+from Core.git.push_router import push_router
+
+push_result = push_router()
+
+        return False
+
+
+
+    backup(path)
+
+
+
+    lines=data.splitlines()
+
+    new=[]
+
+    inserted=False
+
+
+    for line in lines:
+
+
+            if not inserted:
+
+                new.append(
+                    TARGET_IMPORT
+                )
+
+                new.append(
+"""
+push_result = smart_push()
+"""
+                )
+
+                inserted=True
+
+
+            continue
+
+
+        new.append(line)
+
+
+
+    with open(path,"w") as f:
+        f.write(
+            "\n".join(new)
+        )
+
+
+    print(
+        "PATCHED:",
+        path
+    )
+
+    return True
+
+
+
+
+
+for root,dirs,files in os.walk("."):
+
+    for file in files:
+
+        if file.endswith(".py"):
+
+            path=os.path.join(
+                root,
+                file
+            )
+
+            try:
+
+                patch_file(path)
+
+            except Exception:
+                pass
+
+
+
+print(
+    "XDEPLOY SMART PUSH CONNECTED"
+)

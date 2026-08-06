@@ -1,0 +1,49 @@
+import os
+
+
+print("⚡ SEARCHING XDEPLOY PUSH ENGINES")
+print("="*40)
+
+
+for root,dirs,files in os.walk("."):
+
+    dirs[:] = [
+        d for d in dirs
+        if "backup" not in d
+    ]
+
+    for f in files:
+
+        if f.endswith(".py"):
+
+            path=os.path.join(root,f)
+
+            try:
+                data=open(path).read()
+
+                if (
+                    "git push" in data
+                    or
+                    "subprocess" in data and "push" in data
+                    or
+                    "remote" in data and "push" in data
+                ):
+
+                    print(
+                        "\nFOUND:",
+                        path
+                    )
+
+                    for i,line in enumerate(data.splitlines(),1):
+
+                        if "push" in line.lower():
+
+                            print(
+                                f"{i}: {line.strip()}"
+                            )
+
+            except:
+                pass
+
+
+print("\n⚡ DONE")

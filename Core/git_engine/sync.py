@@ -59,7 +59,10 @@ def sync(message):
 
 
     push=run(
-    "git push origin main"
+from Core.git.smart_push import smart_push
+
+push_result = smart_push()
+
     )
 
 
@@ -81,4 +84,3 @@ def sync(message):
     push.stderr
 
     }
-

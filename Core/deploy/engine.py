@@ -94,7 +94,10 @@ def deploy():
 
 
     push=subprocess.run(
-    "git push origin main",
+from Core.git.smart_push import smart_push
+
+push_result = smart_push()
+
     shell=True,
     capture_output=True,
     text=True
@@ -116,5 +119,4 @@ def deploy():
     push.stdout
 
     }
-
 
